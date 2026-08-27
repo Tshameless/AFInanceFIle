@@ -1,0 +1,50 @@
+name: 🔄 每日自动同步A股真实行情与发布 (Daily Market Sync)
+
+on:
+  schedule:
+    # 每个交易日（周一至周五）北京时间 15:30 (即 UTC 07:30) 自动触发
+    - cron: '30 7 * * 1-5'
+  workflow_dispatch: # 支持在 GitHub 网页 Actions 面板随时手动点击运行
+  push:
+    branches:
+      - main
+    paths:
+      - '一键同步最新真实行情.py'
+      - '.github/workflows/auto_sync_market.yml'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "market-sync"
+  cancel-in-progress: false
+
+jobs:
+  sync-market:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 检出最新代码
+        uses: actions/checkout@v4
+
+      - name: 🐍 配置 Python 3.11 运行环境
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 🚀 执行真实行情直连同步与页面编译
+        run: |
+          python 一键同步最新真实行情.py
+
+      - name: 💾 自动提交并推送最新数据
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "📊 今日数据已是最新，无需重复提交。"
+          else
+            git commit -m "chore(data): 自动同步最新A股真实盘后行情与估值 [skip ci]"
+            git push origin main
+          fi
