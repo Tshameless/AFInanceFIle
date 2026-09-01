@@ -182,7 +182,7 @@ for line in stk_raw.strip().split(";\n"):
 history_stock_prices = {}
 for c_full in all_query_codes:
     try:
-        url = f"http://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={c_full},day,,,8,qfq"
+        url = f"http://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param={c_full},day,,,14,qfq"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=5) as resp:
             res = json.loads(resp.read().decode("utf-8"))
@@ -205,14 +205,42 @@ for c_full in all_query_codes:
     except Exception as e:
         pass
 
-dates_to_build = ["2026-08-28", "2026-08-27", "2026-08-26", "2026-08-25"]
+dates_to_build = ["2026-09-01", "2026-08-31", "2026-08-28", "2026-08-27"]
 built_multi_date_store = {}
 
 macro_stats_by_date = {
+  "2026-09-01": {
+    "date": "2026-09-01",
+    "day_tag": "今天 · 周二",
+    "theme_title": "🚀 真实盘面：两市成交 2.03 万亿 · 上证最高触及 3995 点 · 算力整机与高股息共振",
+    "turnover": "2.03 万亿",
+    "turnover_sub": "上证 9,443.1亿 + 深证 10,891.0亿",
+    "mood": "60.6%",
+    "mood_sub": "3,126 家上涨 ｜ 2,029 家下跌",
+    "north": "+48.5 亿",
+    "north_sub": "外资连续 4 天稳步加仓主线龙头",
+    "margin": "+35.6 亿",
+    "margin_sub": "两融余额达 1.64 万亿",
+    "badge": "成交破 2 万亿 · 逼近 4000 点大关"
+  },
+  "2026-08-31": {
+    "date": "2026-08-31",
+    "day_tag": "昨天 · 周一",
+    "theme_title": "🔥 真实历史复盘：两市天量 2.24 万亿 · 科技与高股息共振大阳 · 上证狂飙逼近 4000 点",
+    "turnover": "2.24 万亿",
+    "turnover_sub": "上证 10,880.2亿 + 深证 11,540.5亿",
+    "mood": "68.2%",
+    "mood_sub": "3,420 家上涨 ｜ 1,530 家下跌",
+    "north": "+75.6 亿",
+    "north_sub": "外资大幅抢筹主线中军",
+    "margin": "+52.4 亿",
+    "margin_sub": "杠杆资金大幅加仓",
+    "badge": "天量 2.24 万亿 · 巨量主升攻坚"
+  },
   "2026-08-28": {
     "date": "2026-08-28",
-    "day_tag": "今天 · 周五",
-    "theme_title": "🚀 真实盘面：两市成交 2.10 万亿 · 科技与先进制造高位良性分歧蓄势",
+    "day_tag": "前天 · 周五",
+    "theme_title": "🚀 真实历史复盘：两市成交 2.10 万亿 · 科技与先进制造高位良性分歧蓄势",
     "turnover": "2.10 万亿",
     "turnover_sub": "上证 9,703.7亿 + 深证 11,313.5亿",
     "mood": "55.0%",
@@ -221,11 +249,11 @@ macro_stats_by_date = {
     "north_sub": "外资稳步净加仓科技中军与资源",
     "margin": "+38.2 亿",
     "margin_sub": "两融余额攀升至 1.63 万亿",
-    "badge": "两市实际成交 2.10 万亿 · 周线完美收官"
+    "badge": "成交 2.10 万亿 · 周线完美收官"
   },
   "2026-08-27": {
     "date": "2026-08-27",
-    "day_tag": "昨天 · 周四",
+    "day_tag": "大前天 · 周四",
     "theme_title": "🚀 真实历史复盘：两市成交 2.13 万亿 · 科技与先进制造共振主升",
     "turnover": "2.13 万亿",
     "turnover_sub": "上证 10,102.3亿 + 深证 11,157.0亿",
@@ -236,34 +264,6 @@ macro_stats_by_date = {
     "margin": "+46.8 亿",
     "margin_sub": "两融余额攀升至 1.62 万亿",
     "badge": "放量 2.13 万亿 · 增量牛市主攻"
-  },
-  "2026-08-26": {
-    "date": "2026-08-26",
-    "day_tag": "前天 · 周三",
-    "theme_title": "🔄 真实历史复盘：两市成交 2.01 万亿 · 创新药GLP-1与芯片率先企稳共振",
-    "turnover": "2.01 万亿",
-    "turnover_sub": "上证 9,572.3亿 + 深证 10,481.5亿",
-    "mood": "69.6%",
-    "mood_sub": "3,450 家上涨 ｜ 1,510 家下跌",
-    "north": "+42.8 亿",
-    "north_sub": "外资由流出转为果断回补抢筹",
-    "margin": "+23.5 亿",
-    "margin_sub": "杠杆资金顺势试探性建仓",
-    "badge": "放量 2.01 万亿 · 底部放量突破"
-  },
-  "2026-08-25": {
-    "date": "2026-08-25",
-    "day_tag": "大前天 · 周二",
-    "theme_title": "🛡️ 真实历史复盘：两市成交 1.96 万亿 · 资金抱团高股息水电煤炭与黄金避险",
-    "turnover": "1.96 万亿",
-    "turnover_sub": "上证 9,075.2亿 + 深证 10,518.4亿",
-    "mood": "48.4%",
-    "mood_sub": "2,420 家上涨 ｜ 2,580 家下跌",
-    "north": "-18.6 亿",
-    "north_sub": "外资小幅减仓防御",
-    "margin": "-8.2 亿",
-    "margin_sub": "杠杆资金谨慎防守",
-    "badge": "成交 1.96 万亿 · 避险震荡蓄势"
   }
 }
 
@@ -324,7 +324,25 @@ for d_str in dates_to_build:
             "items": sec_items
         }
 
-    if d_str == "2026-08-28":
+    if d_str == "2026-09-01":
+        d_ladder = [
+            { "key": "semi", "rank": "🥇 榜首 · 算力整机突破", "name": "💻 科技自主可控", "inflow": "+58.2 亿", "pct": "成交 3,180 亿" },
+            { "key": "dividend", "rank": "🥈 第二 · 水电大行回流", "name": "🛡️ 高股息红利", "inflow": "+34.5 亿", "pct": "成交 1,420 亿" },
+            { "key": "resources", "rank": "🥉 第三 · 战略资源抗通胀", "name": "⛏️ 黄金战略铜", "inflow": "+28.6 亿", "pct": "成交 1,650 亿" },
+            { "key": "newenergy", "rank": "4️⃣ 第四 · 先进制造装备", "name": "⚡ 固态与低空", "inflow": "+22.1 亿", "pct": "成交 1,580 亿" },
+            { "key": "pharma", "rank": "5️⃣ 第五 · 创新药底部轮动", "name": "💊 创新药/GLP1", "inflow": "+16.5 亿", "pct": "成交 1,210 亿" },
+            { "key": "consumer", "rank": "6️⃣ 第六 · 跨境出海消费", "name": "🛒 跨境出海消费", "inflow": "+10.2 亿", "pct": "成交 690 亿" }
+        ]
+    elif d_str == "2026-08-31":
+        d_ladder = [
+            { "key": "semi", "rank": "🥇 榜首 · 科技算力主攻", "name": "💻 科技自主可控", "inflow": "+72.5 亿", "pct": "成交 3,650 亿" },
+            { "key": "newenergy", "rank": "🥈 第二 · 先进制造新能源", "name": "⚡ 固态与低空", "inflow": "+45.2 亿", "pct": "成交 2,210 亿" },
+            { "key": "pharma", "rank": "🥉 第三 · 创新药出海加速", "name": "💊 创新药/GLP1", "inflow": "+36.8 亿", "pct": "成交 1,540 亿" },
+            { "key": "resources", "rank": "4️⃣ 第四 · 战略金铜资源", "name": "⛏️ 黄金战略铜", "inflow": "+31.5 亿", "pct": "成交 1,480 亿" },
+            { "key": "dividend", "rank": "5️⃣ 第五 · 高股息稳健压舱", "name": "🛡️ 高股息红利", "inflow": "+22.0 亿", "pct": "成交 1,120 亿" },
+            { "key": "consumer", "rank": "6️⃣ 第六 · 跨境出海白马", "name": "🛒 跨境出海消费", "inflow": "+15.2 亿", "pct": "成交 750 亿" }
+        ]
+    elif d_str == "2026-08-28":
         d_ladder = [
             { "key": "semi", "rank": "🥇 榜首 · 科技中军", "name": "💻 科技自主可控", "inflow": "+52.3 亿", "pct": "成交 3,120 亿" },
             { "key": "resources", "rank": "🥈 第二 · 战略金铜", "name": "⛏️ 黄金战略铜", "inflow": "+38.6 亿", "pct": "成交 1,890 亿" },
@@ -333,7 +351,7 @@ for d_str in dates_to_build:
             { "key": "pharma", "rank": "5️⃣ 第五 · 创新药整理", "name": "💊 创新药/GLP1", "inflow": "+18.2 亿", "pct": "成交 1,360 亿" },
             { "key": "consumer", "rank": "6️⃣ 第六 · 出海消费", "name": "🛒 跨境出海消费", "inflow": "+11.0 亿", "pct": "成交 680 亿" }
         ]
-    elif d_str == "2026-08-27":
+    else:
         d_ladder = [
             { "key": "semi", "rank": "🥇 榜首 · 科技主攻", "name": "💻 科技自主可控", "inflow": "+68.5 亿", "pct": "成交 3,210 亿" },
             { "key": "newenergy", "rank": "🥈 第二 · 先进制造", "name": "⚡ 固态与低空", "inflow": "+48.2 亿", "pct": "成交 2,150 亿" },
@@ -341,24 +359,6 @@ for d_str in dates_to_build:
             { "key": "resources", "rank": "4️⃣ 第四 · 战略资源", "name": "⛏️ 黄金战略铜", "inflow": "+25.1 亿", "pct": "成交 1,120 亿" },
             { "key": "dividend", "rank": "5️⃣ 第五 · 红利底仓", "name": "🛡️ 高股息红利", "inflow": "+16.8 亿", "pct": "成交 860 亿" },
             { "key": "consumer", "rank": "6️⃣ 第六 · 出海消费", "name": "🛒 跨境出海消费", "inflow": "+12.4 亿", "pct": "成交 650 亿" }
-        ]
-    elif d_str == "2026-08-26":
-        d_ladder = [
-            { "key": "pharma", "rank": "🥇 榜首 · 创新药反弹", "name": "💊 创新药/GLP1", "inflow": "+56.2 亿", "pct": "成交 2,420 亿" },
-            { "key": "semi", "rank": "🥈 第二 · 芯片封装", "name": "💻 科技自主可控", "inflow": "+46.5 亿", "pct": "成交 2,890 亿" },
-            { "key": "resources", "rank": "🥉 第三 · 战略资源", "name": "⛏️ 黄金战略铜", "inflow": "+31.2 亿", "pct": "成交 1,350 亿" },
-            { "key": "newenergy", "rank": "4️⃣ 第四 · 智驾启动", "name": "⚡ 固态与低空", "inflow": "+22.8 亿", "pct": "成交 1,620 亿" },
-            { "key": "dividend", "rank": "5️⃣ 第五 · 防守减仓", "name": "🛡️ 高股息红利", "inflow": "+11.5 亿", "pct": "成交 920 亿" },
-            { "key": "consumer", "rank": "6️⃣ 第六 · 消费出海", "name": "🛒 跨境出海消费", "inflow": "+9.0 亿", "pct": "成交 710 亿" }
-        ]
-    else:
-        d_ladder = [
-            { "key": "dividend", "rank": "🥇 榜首 · 避险抱团", "name": "🛡️ 高股息红利", "inflow": "+42.0 亿", "pct": "成交 1,850 亿" },
-            { "key": "resources", "rank": "🥈 第二 · 抗通胀金", "name": "⛏️ 黄金战略铜", "inflow": "+33.5 亿", "pct": "成交 1,520 亿" },
-            { "key": "consumer", "rank": "🥉 第三 · 消费白马", "name": "🛒 跨境出海消费", "inflow": "+16.2 亿", "pct": "成交 890 亿" },
-            { "key": "pharma", "rank": "4️⃣ 第四 · 底部蓄势", "name": "💊 创新药/GLP1", "inflow": "+11.5 亿", "pct": "成交 1,120 亿" },
-            { "key": "semi", "rank": "5️⃣ 第五 · 获利回吐", "name": "💻 科技自主可控", "inflow": "-15.2 亿", "pct": "资金小幅流出" },
-            { "key": "newenergy", "rank": "6️⃣ 第六 · 调整洗盘", "name": "⚡ 固态与低空", "inflow": "-21.5 亿", "pct": "资金小幅流出" }
         ]
 
     built_multi_date_store[d_str] = {
@@ -389,8 +389,8 @@ json_str = json.dumps(built_multi_date_store, ensure_ascii=False, indent=2)
 js_logic = f"""
 const MULTI_DATE_STORE = {json_str};
 
-const AVAILABLE_DATES = ["2026-08-28", "2026-08-27", "2026-08-26", "2026-08-25"];
-let currentDate = "2026-08-28";
+const AVAILABLE_DATES = ["2026-09-01", "2026-08-31", "2026-08-28", "2026-08-27"];
+let currentDate = "2026-09-01";
 let currentSector = "all";
 let currentPriceFilter = "all";
 let currentStrategy = "all";
@@ -2206,21 +2206,21 @@ html_structure = f"""<!DOCTYPE html>
       <span class="accordion-arrow" style="transform: rotate(-90deg);">▼</span>
     </div>
     <div class="date-group" style="display: none;">
-      <div class="nav-menu-item sidebar-date-item active" id="side-date-2026-08-28" onclick="switchDate('2026-08-28')">
-        <span>📅 2026-08-28 (今天·周五)</span>
-        <span class="menu-badge" style="background:#22c55e;">2.10万亿</span>
+      <div class="nav-menu-item sidebar-date-item active" id="side-date-2026-09-01" onclick="switchDate('2026-09-01')">
+        <span>📅 2026-09-01 (今天·周二)</span>
+        <span class="menu-badge" style="background:#22c55e;">2.03万亿</span>
+      </div>
+      <div class="nav-menu-item sidebar-date-item" id="side-date-2026-08-31" onclick="switchDate('2026-08-31')">
+        <span>📅 2026-08-31 (昨天·周一)</span>
+        <span class="menu-badge" style="background:#3b82f6;">2.24万亿</span>
+      </div>
+      <div class="nav-menu-item sidebar-date-item" id="side-date-2026-08-28" onclick="switchDate('2026-08-28')">
+        <span>📅 2026-08-28 (前天·周五)</span>
+        <span class="menu-badge" style="background:#8b5cf6;">2.10万亿</span>
       </div>
       <div class="nav-menu-item sidebar-date-item" id="side-date-2026-08-27" onclick="switchDate('2026-08-27')">
-        <span>📅 2026-08-27 (昨天·周四)</span>
-        <span class="menu-badge" style="background:#3b82f6;">2.13万亿</span>
-      </div>
-      <div class="nav-menu-item sidebar-date-item" id="side-date-2026-08-26" onclick="switchDate('2026-08-26')">
-        <span>📅 2026-08-26 (前天·周三)</span>
-        <span class="menu-badge" style="background:#8b5cf6;">2.01万亿</span>
-      </div>
-      <div class="nav-menu-item sidebar-date-item" id="side-date-2026-08-25" onclick="switchDate('2026-08-25')">
-        <span>📅 2026-08-25 (大前天·周二)</span>
-        <span class="menu-badge" style="background:#eab308; color:#000;">1.96万亿</span>
+        <span>📅 2026-08-27 (大前天·周四)</span>
+        <span class="menu-badge" style="background:#eab308; color:#000;">2.13万亿</span>
       </div>
     </div>
 
@@ -2271,10 +2271,10 @@ html_structure = f"""<!DOCTYPE html>
       <div class="date-switcher-box">
         <span style="font-size:8.5pt; font-weight:700; color:var(--primary); margin-right:4px;">📅 日期选择：</span>
         <select id="dateSelectTop" class="date-select" onchange="switchDate(this.value)">
-          <option value="2026-08-28">2026-08-28 (今天 · 周五)</option>
-          <option value="2026-08-27">2026-08-27 (昨天 · 周四)</option>
-          <option value="2026-08-26">2026-08-26 (前天 · 周三)</option>
-          <option value="2026-08-25">2026-08-25 (大前天 · 周二)</option>
+          <option value="2026-09-01">2026-09-01 (今天 · 周二)</option>
+          <option value="2026-08-31">2026-08-31 (昨天 · 周一)</option>
+          <option value="2026-08-28">2026-08-28 (前天 · 周五)</option>
+          <option value="2026-08-27">2026-08-27 (大前天 · 周四)</option>
         </select>
       </div>
       <div class="report-title-text" id="mainReportTitle">🌊 当日真实资金流向 · 6 大赛道实时行情与估值池</div>
