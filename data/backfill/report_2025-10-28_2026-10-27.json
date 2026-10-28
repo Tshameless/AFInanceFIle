@@ -1,0 +1,1735 @@
+{
+  "start": "2025-10-28",
+  "end": "2026-10-27",
+  "calendar_source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=sh000001%2Cday%2C2025-09-28%2C2026-10-27%2C640%2Cqfq",
+  "calendar_basis": "腾讯行情上证指数日线日期（作为交易日期参考）",
+  "expected_trading_days": 242,
+  "source": "同花顺历史涨停池",
+  "entries": [
+    {
+      "date": "2025-10-28",
+      "status": "saved",
+      "stocks": 57,
+      "reasons": 57,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-10-29",
+      "status": "saved",
+      "stocks": 56,
+      "reasons": 56,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2025-10-30",
+      "status": "saved",
+      "stocks": 46,
+      "reasons": 46,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-10-31",
+      "status": "saved",
+      "stocks": 57,
+      "reasons": 57,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-03",
+      "status": "saved",
+      "stocks": 66,
+      "reasons": 66,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-04",
+      "status": "saved",
+      "stocks": 50,
+      "reasons": 50,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-05",
+      "status": "saved",
+      "stocks": 66,
+      "reasons": 66,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-06",
+      "status": "saved",
+      "stocks": 62,
+      "reasons": 62,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-07",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-10",
+      "status": "saved",
+      "stocks": 71,
+      "reasons": 71,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-11",
+      "status": "saved",
+      "stocks": 66,
+      "reasons": 66,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-12",
+      "status": "saved",
+      "stocks": 58,
+      "reasons": 58,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-13",
+      "status": "saved",
+      "stocks": 85,
+      "reasons": 85,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-14",
+      "status": "saved",
+      "stocks": 70,
+      "reasons": 70,
+      "unknown_streak": 2
+    },
+    {
+      "date": "2025-11-17",
+      "status": "saved",
+      "stocks": 85,
+      "reasons": 85,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-18",
+      "status": "saved",
+      "stocks": 45,
+      "reasons": 45,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-19",
+      "status": "saved",
+      "stocks": 54,
+      "reasons": 54,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-20",
+      "status": "saved",
+      "stocks": 41,
+      "reasons": 41,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-21",
+      "status": "saved",
+      "stocks": 28,
+      "reasons": 28,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-24",
+      "status": "saved",
+      "stocks": 66,
+      "reasons": 66,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-25",
+      "status": "saved",
+      "stocks": 77,
+      "reasons": 77,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-26",
+      "status": "saved",
+      "stocks": 68,
+      "reasons": 68,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-27",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-11-28",
+      "status": "saved",
+      "stocks": 70,
+      "reasons": 70,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-01",
+      "status": "saved",
+      "stocks": 63,
+      "reasons": 63,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-02",
+      "status": "saved",
+      "stocks": 47,
+      "reasons": 47,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2025-12-03",
+      "status": "saved",
+      "stocks": 48,
+      "reasons": 48,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-04",
+      "status": "saved",
+      "stocks": 38,
+      "reasons": 38,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-05",
+      "status": "saved",
+      "stocks": 73,
+      "reasons": 73,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-08",
+      "status": "saved",
+      "stocks": 74,
+      "reasons": 74,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-09",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-10",
+      "status": "saved",
+      "stocks": 56,
+      "reasons": 56,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-11",
+      "status": "saved",
+      "stocks": 32,
+      "reasons": 32,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-12",
+      "status": "saved",
+      "stocks": 77,
+      "reasons": 77,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-15",
+      "status": "saved",
+      "stocks": 57,
+      "reasons": 57,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-16",
+      "status": "saved",
+      "stocks": 40,
+      "reasons": 40,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2025-12-17",
+      "status": "saved",
+      "stocks": 49,
+      "reasons": 49,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-18",
+      "status": "saved",
+      "stocks": 59,
+      "reasons": 59,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-19",
+      "status": "saved",
+      "stocks": 70,
+      "reasons": 70,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-22",
+      "status": "saved",
+      "stocks": 79,
+      "reasons": 79,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-23",
+      "status": "saved",
+      "stocks": 54,
+      "reasons": 54,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-24",
+      "status": "saved",
+      "stocks": 75,
+      "reasons": 75,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-25",
+      "status": "saved",
+      "stocks": 78,
+      "reasons": 78,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2025-12-26",
+      "status": "saved",
+      "stocks": 81,
+      "reasons": 81,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-29",
+      "status": "saved",
+      "stocks": 72,
+      "reasons": 72,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-30",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2025-12-31",
+      "status": "saved",
+      "stocks": 56,
+      "reasons": 56,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-01-05",
+      "status": "saved",
+      "stocks": 107,
+      "reasons": 107,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-06",
+      "status": "saved",
+      "stocks": 117,
+      "reasons": 117,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-01-07",
+      "status": "saved",
+      "stocks": 80,
+      "reasons": 80,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-08",
+      "status": "saved",
+      "stocks": 92,
+      "reasons": 92,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-09",
+      "status": "saved",
+      "stocks": 92,
+      "reasons": 92,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-12",
+      "status": "saved",
+      "stocks": 178,
+      "reasons": 178,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-13",
+      "status": "saved",
+      "stocks": 65,
+      "reasons": 65,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-14",
+      "status": "saved",
+      "stocks": 99,
+      "reasons": 99,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-01-15",
+      "status": "saved",
+      "stocks": 55,
+      "reasons": 55,
+      "unknown_streak": 2
+    },
+    {
+      "date": "2026-01-16",
+      "status": "saved",
+      "stocks": 58,
+      "reasons": 58,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-19",
+      "status": "saved",
+      "stocks": 87,
+      "reasons": 87,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-01-20",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-01-21",
+      "status": "saved",
+      "stocks": 78,
+      "reasons": 78,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-22",
+      "status": "saved",
+      "stocks": 72,
+      "reasons": 72,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-23",
+      "status": "saved",
+      "stocks": 102,
+      "reasons": 102,
+      "unknown_streak": 9
+    },
+    {
+      "date": "2026-01-26",
+      "status": "saved",
+      "stocks": 70,
+      "reasons": 70,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-27",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-28",
+      "status": "saved",
+      "stocks": 80,
+      "reasons": 80,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-29",
+      "status": "saved",
+      "stocks": 82,
+      "reasons": 82,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-01-30",
+      "status": "saved",
+      "stocks": 48,
+      "reasons": 48,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-02",
+      "status": "saved",
+      "stocks": 36,
+      "reasons": 36,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-03",
+      "status": "saved",
+      "stocks": 69,
+      "reasons": 69,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-04",
+      "status": "saved",
+      "stocks": 68,
+      "reasons": 68,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-02-05",
+      "status": "saved",
+      "stocks": 44,
+      "reasons": 44,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-06",
+      "status": "saved",
+      "stocks": 55,
+      "reasons": 55,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-09",
+      "status": "saved",
+      "stocks": 83,
+      "reasons": 83,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-10",
+      "status": "saved",
+      "stocks": 60,
+      "reasons": 60,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-11",
+      "status": "saved",
+      "stocks": 51,
+      "reasons": 51,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-12",
+      "status": "saved",
+      "stocks": 60,
+      "reasons": 60,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-13",
+      "status": "saved",
+      "stocks": 32,
+      "reasons": 32,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-24",
+      "status": "saved",
+      "stocks": 92,
+      "reasons": 92,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-25",
+      "status": "saved",
+      "stocks": 75,
+      "reasons": 75,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-26",
+      "status": "saved",
+      "stocks": 61,
+      "reasons": 61,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-02-27",
+      "status": "saved",
+      "stocks": 75,
+      "reasons": 75,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-02",
+      "status": "saved",
+      "stocks": 87,
+      "reasons": 87,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-03",
+      "status": "saved",
+      "stocks": 76,
+      "reasons": 76,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-04",
+      "status": "saved",
+      "stocks": 44,
+      "reasons": 44,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-05",
+      "status": "saved",
+      "stocks": 68,
+      "reasons": 68,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-06",
+      "status": "saved",
+      "stocks": 74,
+      "reasons": 74,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-09",
+      "status": "saved",
+      "stocks": 42,
+      "reasons": 42,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-10",
+      "status": "saved",
+      "stocks": 55,
+      "reasons": 55,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-11",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-12",
+      "status": "saved",
+      "stocks": 52,
+      "reasons": 52,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-13",
+      "status": "saved",
+      "stocks": 59,
+      "reasons": 59,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-16",
+      "status": "saved",
+      "stocks": 44,
+      "reasons": 44,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-17",
+      "status": "saved",
+      "stocks": 39,
+      "reasons": 39,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-18",
+      "status": "saved",
+      "stocks": 57,
+      "reasons": 57,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-19",
+      "status": "saved",
+      "stocks": 28,
+      "reasons": 28,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-20",
+      "status": "saved",
+      "stocks": 28,
+      "reasons": 28,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-23",
+      "status": "saved",
+      "stocks": 28,
+      "reasons": 28,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-24",
+      "status": "saved",
+      "stocks": 83,
+      "reasons": 83,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-25",
+      "status": "saved",
+      "stocks": 84,
+      "reasons": 84,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-26",
+      "status": "saved",
+      "stocks": 39,
+      "reasons": 39,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-27",
+      "status": "saved",
+      "stocks": 78,
+      "reasons": 78,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-30",
+      "status": "saved",
+      "stocks": 62,
+      "reasons": 62,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-03-31",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-01",
+      "status": "saved",
+      "stocks": 56,
+      "reasons": 56,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-02",
+      "status": "saved",
+      "stocks": 27,
+      "reasons": 27,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-03",
+      "status": "saved",
+      "stocks": 36,
+      "reasons": 36,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-07",
+      "status": "saved",
+      "stocks": 93,
+      "reasons": 93,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-08",
+      "status": "saved",
+      "stocks": 122,
+      "reasons": 122,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-09",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-10",
+      "status": "saved",
+      "stocks": 59,
+      "reasons": 59,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-04-13",
+      "status": "saved",
+      "stocks": 59,
+      "reasons": 59,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-14",
+      "status": "saved",
+      "stocks": 55,
+      "reasons": 55,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-15",
+      "status": "saved",
+      "stocks": 57,
+      "reasons": 57,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-16",
+      "status": "saved",
+      "stocks": 79,
+      "reasons": 79,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-17",
+      "status": "saved",
+      "stocks": 69,
+      "reasons": 69,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-20",
+      "status": "saved",
+      "stocks": 75,
+      "reasons": 75,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-21",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-22",
+      "status": "saved",
+      "stocks": 54,
+      "reasons": 54,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-23",
+      "status": "saved",
+      "stocks": 50,
+      "reasons": 50,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-24",
+      "status": "saved",
+      "stocks": 59,
+      "reasons": 59,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-27",
+      "status": "saved",
+      "stocks": 65,
+      "reasons": 65,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-28",
+      "status": "saved",
+      "stocks": 58,
+      "reasons": 58,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-29",
+      "status": "saved",
+      "stocks": 99,
+      "reasons": 99,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-04-30",
+      "status": "saved",
+      "stocks": 78,
+      "reasons": 78,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-06",
+      "status": "saved",
+      "stocks": 100,
+      "reasons": 100,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-07",
+      "status": "saved",
+      "stocks": 99,
+      "reasons": 99,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-08",
+      "status": "saved",
+      "stocks": 97,
+      "reasons": 97,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-11",
+      "status": "saved",
+      "stocks": 92,
+      "reasons": 92,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-12",
+      "status": "saved",
+      "stocks": 57,
+      "reasons": 57,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-13",
+      "status": "saved",
+      "stocks": 112,
+      "reasons": 112,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-14",
+      "status": "saved",
+      "stocks": 54,
+      "reasons": 54,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-15",
+      "status": "saved",
+      "stocks": 54,
+      "reasons": 54,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-18",
+      "status": "saved",
+      "stocks": 81,
+      "reasons": 81,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-05-19",
+      "status": "saved",
+      "stocks": 90,
+      "reasons": 90,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-20",
+      "status": "saved",
+      "stocks": 61,
+      "reasons": 61,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-05-21",
+      "status": "saved",
+      "stocks": 33,
+      "reasons": 33,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-22",
+      "status": "saved",
+      "stocks": 115,
+      "reasons": 115,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-25",
+      "status": "saved",
+      "stocks": 103,
+      "reasons": 103,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-26",
+      "status": "saved",
+      "stocks": 46,
+      "reasons": 46,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-27",
+      "status": "saved",
+      "stocks": 47,
+      "reasons": 47,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-28",
+      "status": "saved",
+      "stocks": 101,
+      "reasons": 101,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-05-29",
+      "status": "saved",
+      "stocks": 49,
+      "reasons": 49,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-01",
+      "status": "saved",
+      "stocks": 118,
+      "reasons": 118,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-02",
+      "status": "saved",
+      "stocks": 64,
+      "reasons": 64,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-03",
+      "status": "saved",
+      "stocks": 66,
+      "reasons": 66,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-04",
+      "status": "saved",
+      "stocks": 78,
+      "reasons": 78,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-05",
+      "status": "saved",
+      "stocks": 71,
+      "reasons": 71,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-08",
+      "status": "saved",
+      "stocks": 55,
+      "reasons": 55,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-09",
+      "status": "saved",
+      "stocks": 127,
+      "reasons": 127,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-10",
+      "status": "saved",
+      "stocks": 70,
+      "reasons": 70,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-11",
+      "status": "saved",
+      "stocks": 69,
+      "reasons": 69,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-12",
+      "status": "saved",
+      "stocks": 88,
+      "reasons": 88,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-15",
+      "status": "saved",
+      "stocks": 144,
+      "reasons": 144,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-16",
+      "status": "saved",
+      "stocks": 116,
+      "reasons": 116,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-17",
+      "status": "saved",
+      "stocks": 85,
+      "reasons": 85,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-18",
+      "status": "saved",
+      "stocks": 91,
+      "reasons": 91,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-06-22",
+      "status": "saved",
+      "stocks": 132,
+      "reasons": 132,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-23",
+      "status": "saved",
+      "stocks": 94,
+      "reasons": 94,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-24",
+      "status": "saved",
+      "stocks": 98,
+      "reasons": 98,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-25",
+      "status": "saved",
+      "stocks": 85,
+      "reasons": 85,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-06-26",
+      "status": "saved",
+      "stocks": 60,
+      "reasons": 60,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-29",
+      "status": "saved",
+      "stocks": 105,
+      "reasons": 105,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-06-30",
+      "status": "saved",
+      "stocks": 138,
+      "reasons": 138,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-01",
+      "status": "saved",
+      "stocks": 149,
+      "reasons": 149,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-07-02",
+      "status": "saved",
+      "stocks": 91,
+      "reasons": 91,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-03",
+      "status": "saved",
+      "stocks": 104,
+      "reasons": 104,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-06",
+      "status": "saved",
+      "stocks": 64,
+      "reasons": 64,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-07-07",
+      "status": "saved",
+      "stocks": 33,
+      "reasons": 33,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-08",
+      "status": "saved",
+      "stocks": 46,
+      "reasons": 46,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-09",
+      "status": "saved",
+      "stocks": 74,
+      "reasons": 74,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-10",
+      "status": "saved",
+      "stocks": 88,
+      "reasons": 88,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-13",
+      "status": "saved",
+      "stocks": 27,
+      "reasons": 27,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-14",
+      "status": "saved",
+      "stocks": 79,
+      "reasons": 79,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-15",
+      "status": "saved",
+      "stocks": 71,
+      "reasons": 71,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-16",
+      "status": "saved",
+      "stocks": 40,
+      "reasons": 40,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-17",
+      "status": "saved",
+      "stocks": 32,
+      "reasons": 32,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-20",
+      "status": "saved",
+      "stocks": 53,
+      "reasons": 53,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-21",
+      "status": "saved",
+      "stocks": 120,
+      "reasons": 120,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-22",
+      "status": "saved",
+      "stocks": 46,
+      "reasons": 46,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-23",
+      "status": "saved",
+      "stocks": 115,
+      "reasons": 115,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-24",
+      "status": "saved",
+      "stocks": 40,
+      "reasons": 40,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-27",
+      "status": "saved",
+      "stocks": 111,
+      "reasons": 111,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-28",
+      "status": "saved",
+      "stocks": 60,
+      "reasons": 60,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-29",
+      "status": "saved",
+      "stocks": 81,
+      "reasons": 81,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-30",
+      "status": "saved",
+      "stocks": 51,
+      "reasons": 51,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-07-31",
+      "status": "saved",
+      "stocks": 98,
+      "reasons": 98,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-03",
+      "status": "saved",
+      "stocks": 75,
+      "reasons": 75,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-04",
+      "status": "saved",
+      "stocks": 137,
+      "reasons": 137,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-05",
+      "status": "saved",
+      "stocks": 102,
+      "reasons": 102,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-06",
+      "status": "saved",
+      "stocks": 79,
+      "reasons": 79,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-08-07",
+      "status": "saved",
+      "stocks": 74,
+      "reasons": 74,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-10",
+      "status": "saved",
+      "stocks": 99,
+      "reasons": 99,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-11",
+      "status": "saved",
+      "stocks": 58,
+      "reasons": 58,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-12",
+      "status": "saved",
+      "stocks": 91,
+      "reasons": 91,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-13",
+      "status": "saved",
+      "stocks": 59,
+      "reasons": 59,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-08-14",
+      "status": "saved",
+      "stocks": 62,
+      "reasons": 62,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-17",
+      "status": "saved",
+      "stocks": 106,
+      "reasons": 106,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-18",
+      "status": "saved",
+      "stocks": 78,
+      "reasons": 78,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-19",
+      "status": "saved",
+      "stocks": 36,
+      "reasons": 36,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-20",
+      "status": "saved",
+      "stocks": 78,
+      "reasons": 78,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-21",
+      "status": "saved",
+      "stocks": 54,
+      "reasons": 54,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-24",
+      "status": "saved",
+      "stocks": 46,
+      "reasons": 46,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-25",
+      "status": "saved",
+      "stocks": 65,
+      "reasons": 65,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-08-26",
+      "status": "saved",
+      "stocks": 52,
+      "reasons": 52,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-27",
+      "status": "saved",
+      "stocks": 76,
+      "reasons": 76,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-28",
+      "status": "saved",
+      "stocks": 81,
+      "reasons": 81,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-08-31",
+      "status": "saved",
+      "stocks": 86,
+      "reasons": 86,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-01",
+      "status": "saved",
+      "stocks": 80,
+      "reasons": 80,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-02",
+      "status": "saved",
+      "stocks": 49,
+      "reasons": 49,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-03",
+      "status": "saved",
+      "stocks": 44,
+      "reasons": 44,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-04",
+      "status": "saved",
+      "stocks": 38,
+      "reasons": 38,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-07",
+      "status": "saved",
+      "stocks": 92,
+      "reasons": 92,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-08",
+      "status": "saved",
+      "stocks": 72,
+      "reasons": 72,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-09",
+      "status": "saved",
+      "stocks": 48,
+      "reasons": 48,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-10",
+      "status": "saved",
+      "stocks": 34,
+      "reasons": 34,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-11",
+      "status": "saved",
+      "stocks": 40,
+      "reasons": 40,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-14",
+      "status": "saved",
+      "stocks": 55,
+      "reasons": 55,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-15",
+      "status": "saved",
+      "stocks": 32,
+      "reasons": 32,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-16",
+      "status": "saved",
+      "stocks": 89,
+      "reasons": 89,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-17",
+      "status": "saved",
+      "stocks": 47,
+      "reasons": 47,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-18",
+      "status": "saved",
+      "stocks": 77,
+      "reasons": 77,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-21",
+      "status": "saved",
+      "stocks": 101,
+      "reasons": 101,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-22",
+      "status": "saved",
+      "stocks": 62,
+      "reasons": 62,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-23",
+      "status": "saved",
+      "stocks": 51,
+      "reasons": 51,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-24",
+      "status": "saved",
+      "stocks": 51,
+      "reasons": 51,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-28",
+      "status": "saved",
+      "stocks": 33,
+      "reasons": 33,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-29",
+      "status": "saved",
+      "stocks": 56,
+      "reasons": 56,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-09-30",
+      "status": "saved",
+      "stocks": 52,
+      "reasons": 52,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-08",
+      "status": "saved",
+      "stocks": 42,
+      "reasons": 42,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-09",
+      "status": "saved",
+      "stocks": 69,
+      "reasons": 69,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-12",
+      "status": "saved",
+      "stocks": 46,
+      "reasons": 46,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-13",
+      "status": "saved",
+      "stocks": 67,
+      "reasons": 67,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-14",
+      "status": "saved",
+      "stocks": 36,
+      "reasons": 36,
+      "unknown_streak": 2
+    },
+    {
+      "date": "2026-10-15",
+      "status": "saved",
+      "stocks": 36,
+      "reasons": 36,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-16",
+      "status": "saved",
+      "stocks": 59,
+      "reasons": 59,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-10-19",
+      "status": "saved",
+      "stocks": 46,
+      "reasons": 46,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-20",
+      "status": "saved",
+      "stocks": 52,
+      "reasons": 52,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-21",
+      "status": "saved",
+      "stocks": 50,
+      "reasons": 50,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-22",
+      "status": "saved",
+      "stocks": 33,
+      "reasons": 33,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-23",
+      "status": "saved",
+      "stocks": 80,
+      "reasons": 80,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-26",
+      "status": "saved",
+      "stocks": 55,
+      "reasons": 55,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-27",
+      "status": "preserved",
+      "stocks": 41,
+      "reasons": 41,
+      "unknown_streak": 0
+    }
+  ],
+  "warmup_failures": [
+    {
+      "date": "2025-09-29",
+      "status": "failed",
+      "error": "同花顺原因接口错误: date参数不合法"
+    },
+    {
+      "date": "2025-09-30",
+      "status": "failed",
+      "error": "同花顺原因接口错误: date参数不合法"
+    },
+    {
+      "date": "2025-10-09",
+      "status": "failed",
+      "error": "同花顺原因接口错误: date参数不合法"
+    },
+    {
+      "date": "2025-10-10",
+      "status": "failed",
+      "error": "同花顺原因接口错误: date参数不合法"
+    }
+  ],
+  "complete": true,
+  "updated_at": "2026-10-28T11:49:10+08:00",
+  "counts": {
+    "saved": 241,
+    "preserved": 1
+  },
+  "total_stocks": 16479,
+  "total_reasons": 16479,
+  "unknown_streaks": 36
+}
