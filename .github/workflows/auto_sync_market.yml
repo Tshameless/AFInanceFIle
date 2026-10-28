@@ -1,4 +1,4 @@
-name: 🔄 每日自动同步A股真实行情与发布 (Daily Market Sync)
+name: 每日涨停池与涨停原因同步
 
 on:
   schedule:
@@ -10,6 +10,8 @@ on:
       - main
     paths:
       - '一键同步最新真实行情.py'
+      - 'sync_limit_up.py'
+      - 'limit-up.template.html'
       - '.github/workflows/auto_sync_market.yml'
 
 permissions:
@@ -33,18 +35,19 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: 🚀 执行真实行情直连同步与页面编译
+      - name: 抓取每日涨停池并生成复盘页面
         run: |
-          python 一键同步最新真实行情.py
+          python -m unittest discover -s tests -v
+          python sync_limit_up.py
 
       - name: 💾 自动提交并推送最新数据
         run: |
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add -- data/limit-up index.html 股票分析工作台.html 半导体股票分析/A股AI产业链全景图谱_低价精选.html
           if git diff --staged --quiet; then
             echo "📊 今日数据已是最新，无需重复提交。"
           else
-            git commit -m "chore(data): 自动同步最新A股真实盘后行情与估值 [skip ci]"
+            git commit -m "chore(data): 更新每日涨停池与涨停原因 [skip ci]"
             git push origin main
           fi
