@@ -1,0 +1,152 @@
+{
+  "start": "2026-10-29",
+  "end": "2026-11-24",
+  "calendar_source": "https://web.ifzq.gtimg.cn/appstock/app/fqkline/get?param=sh000001%2Cday%2C2026-09-29%2C2026-11-24%2C640%2Cqfq",
+  "calendar_basis": "腾讯行情上证指数日线日期（作为交易日期参考）",
+  "expected_trading_days": 19,
+  "source": "同花顺历史涨停池",
+  "entries": [
+    {
+      "date": "2026-10-29",
+      "status": "saved",
+      "stocks": 39,
+      "reasons": 39,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-10-30",
+      "status": "saved",
+      "stocks": 47,
+      "reasons": 47,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-02",
+      "status": "saved",
+      "stocks": 125,
+      "reasons": 125,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-03",
+      "status": "saved",
+      "stocks": 48,
+      "reasons": 48,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-04",
+      "status": "saved",
+      "stocks": 116,
+      "reasons": 116,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-05",
+      "status": "saved",
+      "stocks": 83,
+      "reasons": 83,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-06",
+      "status": "saved",
+      "stocks": 32,
+      "reasons": 32,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-09",
+      "status": "saved",
+      "stocks": 54,
+      "reasons": 54,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-10",
+      "status": "saved",
+      "stocks": 93,
+      "reasons": 93,
+      "unknown_streak": 1
+    },
+    {
+      "date": "2026-11-11",
+      "status": "saved",
+      "stocks": 84,
+      "reasons": 84,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-12",
+      "status": "saved",
+      "stocks": 37,
+      "reasons": 37,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-13",
+      "status": "saved",
+      "stocks": 37,
+      "reasons": 37,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-16",
+      "status": "saved",
+      "stocks": 32,
+      "reasons": 32,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-17",
+      "status": "saved",
+      "stocks": 36,
+      "reasons": 36,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-18",
+      "status": "saved",
+      "stocks": 40,
+      "reasons": 40,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-19",
+      "status": "saved",
+      "stocks": 23,
+      "reasons": 23,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-20",
+      "status": "saved",
+      "stocks": 28,
+      "reasons": 28,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-23",
+      "status": "saved",
+      "stocks": 145,
+      "reasons": 145,
+      "unknown_streak": 0
+    },
+    {
+      "date": "2026-11-24",
+      "status": "saved",
+      "stocks": 55,
+      "reasons": 55,
+      "unknown_streak": 0
+    }
+  ],
+  "warmup_failures": [],
+  "complete": true,
+  "updated_at": "2026-11-25T15:23:19+08:00",
+  "counts": {
+    "saved": 19
+  },
+  "total_stocks": 1154,
+  "total_reasons": 1154,
+  "unknown_streaks": 1
+}

@@ -5,6 +5,7 @@ import argparse
 from datetime import date, datetime, timedelta, timezone
 import json
 import math
+import os
 from pathlib import Path
 import re
 import sys
@@ -220,16 +221,19 @@ def publish(snapshot=None, root=BASE_DIR):
     if snapshot:
         days[snapshot["date"]] = snapshot
     payload = {"latest_date": max(days) if days else None, "days": days}
+    review_dir = root / "复盘笔记"
+    payload["review_dates"] = sorted(path.stem for path in review_dir.glob("*.html") if path.stem in days)
     # JSON 内联时转义 HTML 元字符，防止来源文本提前结束 script 标签。
     embedded = json.dumps(payload, ensure_ascii=False, allow_nan=False).replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e")
     template = (root / "limit-up.template.html").read_text(encoding="utf-8")
     if template.count("__LIMIT_UP_DATA__") != 1:
         raise ValueError("页面模板数据占位符异常")
-    html = template.replace("__LIMIT_UP_DATA__", embedded)
     if snapshot:
         atomic_write(root / "data" / "limit-up" / f"{snapshot['date']}.json", json.dumps(snapshot, ensure_ascii=False, indent=2, allow_nan=False) + "\n")
     for relative in PAGE_PATHS:
-        atomic_write(root / relative, html)
+        review_base = Path(os.path.relpath(review_dir, (root / relative).parent)).as_posix()
+        page = template.replace("__REVIEW_BASE__", review_base).replace("__LIMIT_UP_DATA__", embedded)
+        atomic_write(root / relative, page)
     return payload
 
 
