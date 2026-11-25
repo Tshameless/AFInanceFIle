@@ -24,12 +24,20 @@ body{font-size:13px}button,input,select{background:#1b1e21;border-color:var(--li
 @media(min-width:1500px){main{padding:30px 36px}}@media(max-width:1100px){.app{grid-template-columns:170px minmax(0,1fr)}main{padding:24px 20px}}@media(max-width:700px){.app{display:block}aside{padding:14px 16px}main{padding:20px 14px}.history-dialog{width:calc(100vw - 16px);max-height:94dvh}.history-header{padding:12px}.history-content{padding:0 12px 12px;max-height:calc(94dvh - 175px)}.history-description{font-size:11px}.history-legend{display:none}.episode-summary{gap:4px 8px}.history-heading h2{font-size:15px}.actions{flex-wrap:wrap}.stats{gap:8px}.stat{padding:10px 12px}}
 .history-dialog[open]{display:flex;flex-direction:column;overflow:hidden}.history-header{flex-direction:row;flex-shrink:0}.history-content{min-height:0}.peer-table{min-width:1000px}
 @media(max-width:700px){.history-header{gap:8px}.history-content{max-height:calc(94dvh - 160px)}.peer-table col:nth-child(1){width:145px}.peer-table col:nth-child(2){width:145px}}
+.plan-journal{border:1px solid var(--line);background:var(--card);border-radius:6px;margin:0 0 16px;scroll-margin-top:12px}
+.plan-journal>summary{cursor:pointer;padding:10px 14px;font-size:15px;font-weight:650}
+.plan-journal summary:focus-visible{outline:2px solid var(--primary);outline-offset:-2px}
+.plan-day{padding:0 14px 12px}.plan-day h3{font-size:14px;margin:5px 0}.plan-day+.plan-day{border-top:1px solid var(--line);padding-top:9px}
+.plan-note{color:var(--muted);font-size:12px;margin:4px 0 8px}.plan-item{border-top:1px solid var(--line)}
+.plan-item summary{cursor:pointer;padding:7px 0}.plan-item summary span{font-size:12px;color:var(--primary);margin-inline-start:10px}
+.plan-item dl{display:grid;grid-template-columns:6em 1fr;gap:5px 10px;margin:3px 0 12px}.plan-item dt{color:var(--muted)}.plan-item dd{margin:0;overflow-wrap:anywhere}
+@media(max-width:700px){.plan-item dl{display:block}.plan-item dt{margin-top:8px}.plan-item summary span{white-space:nowrap}}
 </style>
 </head>
 <body>
 <div class="app">
 <aside><div><div class="brand">涨停复盘台<span style="color:#60a5fa">.</span></div><p class="eyebrow">DAILY LIMIT-UP REVIEW</p></div>
-<div><h2>连板梯队</h2><nav aria-label="分类与页面导航"><button type="button" data-nav-group="all" aria-controls="boards">全市场概览</button><button type="button" data-nav-group="1" aria-controls="boards">首板 · 新晋涨停</button><button type="button" data-nav-group="2" aria-controls="boards">二板 · 连续确认</button><button type="button" data-nav-group="3" aria-controls="boards">三板 · 高度进阶</button><button type="button" data-nav-group="4+" aria-controls="boards">四板及以上</button><button type="button" data-nav-group="unknown" aria-controls="boards" hidden>板数待核实</button><a href="#methodology">数据口径</a></nav></div>
+<div><h2>连板梯队</h2><nav aria-label="分类与页面导航"><button type="button" data-nav-group="all" aria-controls="boards">全市场概览</button><button type="button" data-nav-group="1" aria-controls="boards">首板 · 新晋涨停</button><button type="button" data-nav-group="2" aria-controls="boards">二板 · 连续确认</button><button type="button" data-nav-group="3" aria-controls="boards">三板 · 高度进阶</button><button type="button" data-nav-group="4+" aria-controls="boards">四板及以上</button><button type="button" data-nav-group="unknown" aria-controls="boards" hidden>板数待核实</button><a href="#plans">次日预案与回顾</a><a href="#methodology">数据口径</a></nav></div>
 <p class="side-note"><strong>用事实记录每一次涨停</strong><br>每日快照 / 连板分类 / 原因溯源<br><br>按连续交易日涨停数分类。<br>原因沿用来源标签，缺失待核实。</p></aside>
 <main id="overview">
 <header><div><h1>每日涨停复盘</h1><p class="subtitle">从首板到高位连板，查看个股涨停原因与封板表现。</p></div><div class="actions"><button id="reload" type="button">重新读取快照</button><button id="export" type="button" class="primary">导出筛选结果 CSV</button></div></header>
@@ -38,6 +46,10 @@ body{font-size:13px}button,input,select{background:#1b1e21;border-color:var(--li
 <div class="stats" id="stats" aria-label="按连板数筛选"></div>
 <div class="toolbar"><label class="field">已保存交易日<select id="date" aria-label="已保存交易日"></select></label><label class="field search">搜索股票或涨停原因<input id="search" type="search" placeholder="名称 / 代码 / 机器人 / 业绩…" autocomplete="off"></label><label class="field">原因状态<select id="reason-filter"><option value="all">全部原因</option><option value="available">已有原因</option><option value="missing">原因待核实</option></select></label><label class="field">排序<select id="sort"><option value="time">首次封板最早</option><option value="seal">封板资金最多</option><option value="change">涨幅最高</option><option value="code">股票代码</option></select></label><span class="result-count" id="result-count" role="status"></span></div>
 <div class="live-status" id="status" role="status" aria-live="polite"></div>
+<details id="plans" class="plan-journal">
+  <summary>次日预案与收盘回顾</summary>
+  <div id="plan-content"></div>
+</details>
 <div id="boards" tabindex="-1" aria-label="涨停分类结果"></div>
 <footer class="foot" id="methodology"><h2>数据口径与更新方式</h2><p>首板、二板、三板分别表示连续 1、2、3 个交易日涨停；四板及以上独立展示。每日同步取东方财富连续涨停字段；同花顺历史补抓按实际交易日的涨停名单逐日核算，并核对明确的连续板形态。不将“多天多板”直接当作连续涨停，无法确认时列为板数待核实。</p><p>涨停池按当日来源接口收录范围展示，东方财富与同花顺历史池口径可能不同，不代表完整市场覆盖。原因取同一交易日、同一股票代码的同花顺涨停原因标签。标签属于来源归因，未经独立核实，不能据此认定实际因果。历史来源未返回的封板时间、成交额等字段留空。</p><p id="sources"></p><p>抓取时间为北京时间。页面展示已保存快照，盘中数据会变化，盘后抓取也不保证来源已最终更新。“重新读取快照”只重载页面；获取新行情请运行本地脚本，或使用仓库每日自动任务。</p><details><summary>如何抓取和历史复盘</summary><p>Windows 双击“一键刷新行情.bat”；命令行执行 <code>python sync_limit_up.py</code>。补抓区间执行 <code>python backfill_limit_up.py --start 2025-10-28 --end 2026-10-27</code>，支持缓存续抓。历史选项仅包含已成功保存的快照。</p></details></footer>
 </main></div>
@@ -53,9 +65,19 @@ const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const GROUPS=[['1','首板','连续 1 个交易日涨停'],['2','二板','连续 2 个交易日涨停'],['3','三板','连续 3 个交易日涨停'],['4+','四板及以上','连续至少 4 个交易日涨停'],['unknown','板数待核实','来源未提供有效连续板数']];
 let group='all';
-let showingMethodology=false;
-function syncNavigation(){const unknown=snapshot()?.stocks.some(s=>s.group==='unknown')||false;document.querySelectorAll('[data-nav-group]').forEach(button=>{button.hidden=button.dataset.navGroup==='unknown'&&!unknown;button.setAttribute('aria-pressed',String(!showingMethodology&&button.dataset.navGroup===group));});const link=document.querySelector('nav a');if(showingMethodology)link.setAttribute('aria-current','location');else link.removeAttribute('aria-current');}
-function selectGroup(next,{navigate=false}={}){group=next;showingMethodology=false;if(next==='all'){$('search').value='';$('reason-filter').value='all';}$('status').textContent='';renderStats();renderBoards();if(navigate){$('overview').scrollIntoView({block:'start'});}}
+let activeSection=location.hash;
+function syncNavigation(){
+  const unknown=snapshot()?.stocks.some(s=>s.group==='unknown')||false;
+  document.querySelectorAll('[data-nav-group]').forEach(button=>{
+    button.hidden=button.dataset.navGroup==='unknown'&&!unknown;
+    button.setAttribute('aria-pressed',String(!activeSection&&button.dataset.navGroup===group));
+  });
+  document.querySelectorAll('nav a').forEach(link=>{
+    if(link.hash===activeSection) link.setAttribute('aria-current','location');
+    else link.removeAttribute('aria-current');
+  });
+}
+function selectGroup(next,{navigate=false}={}){group=next;activeSection='';if(next==='all'){$('search').value='';$('reason-filter').value='all';}$('status').textContent='';renderStats();renderBoards();if(navigate){$('overview').scrollIntoView({block:'start'});}}
 function snapshot(){return DATA.days[$('date').value]||null;}
 function safeLink(url,label){try{const u=new URL(url);if(u.protocol==='https:')return `<a href="${esc(u.href)}" target="_blank" rel="noopener noreferrer">${esc(label)} ↗</a>`;}catch{}return esc(label);}
 function fmt(n,d=2){return n===null||n===undefined?'—':Number(n).toFixed(d);}
@@ -165,6 +187,52 @@ $('boards').addEventListener('click',event=>{const button=event.target.closest('
 $('history-close').addEventListener('click',()=>$('history-dialog').close());
 $('history-dialog').addEventListener('click',event=>{if(event.target!==$('history-dialog'))return;const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)event.target.close();});
 const dates=Object.keys(DATA.days).sort().reverse();$('date').innerHTML=dates.length?dates.map(d=>`<option value="${esc(d)}">${esc(d)}</option>`).join(''):'<option value="">暂无数据</option>';$('date').disabled=!dates.length;
+if(location.hash==='#plans'){
+  const requestedDate=new URLSearchParams(location.search).get('date');
+  if(dates.includes(requestedDate)) $('date').value=requestedDate;
+  $('plans').open=true;
+}
+function planSection(written,plan,asReview){
+  const target=plan.target_date;
+  const snapshot=DATA.days[target];
+  const rows=plan.items.map(item=>{
+    const outcome=asReview && plan.closed ? plan.review[item.id] : null;
+    const fields=[['原判断',item.expectation],['验证条件',item.check]];
+    if(asReview && plan.closed){
+      const facts=plan.evidence[item.id]||[];
+      if(facts.length) fields.push(['收盘涨停池',facts.join('；')]);
+      if(outcome) fields.push(['实际表现',outcome.actual],['预案的问题',outcome.problem],['下次怎么改',outcome.next_time]);
+    }
+    const status=asReview ? (plan.closed ? outcome?.status||'待分析' : '待收盘核对') : '次日验证';
+    return `<details class="plan-item"><summary>${esc(item.title)}<span>${esc(status)}</span></summary><dl>${fields.map(([label,text])=>`<dt>${esc(label)}</dt><dd>${esc(text)}</dd>`).join('')}</dl></details>`;
+  }).join('');
+  const heading=asReview ? `收盘回顾 · ${written} 的预案` : `次日预案 · ${target}`;
+  let note=asReview && plan.closed
+    ? `收盘证据取自 ${target} 涨停池。盘中承接与未涨停股票的涨跌须结合分时核对。 ${safeLink(snapshot.pool_source,'涨停池来源')}`
+    : esc(plan.source);
+  if(asReview && !plan.closed) note+=' 等待目标交易日的盘后快照。';
+  if(!asReview && plan.closed) note+=` <button type="button" data-plan-review="${esc(target)}">查看 ${esc(target)} 收盘回顾</button>`;
+  if(!asReview && !plan.closed) note+=` 待 ${esc(target)} 收盘核对。`;
+  return `<section class="plan-day"><h3>${esc(heading)}</h3><p class="plan-note">${note}</p>${rows}</section>`;
+}
+function renderPlans(){
+  const date=$('date').value;
+  const plans=DATA.plans||{};
+  const prior=Object.entries(plans).find(([,plan])=>plan.target_date===date);
+  const sections=[];
+  if(prior) sections.push(planSection(prior[0],prior[1],true));
+  if(plans[date]) sections.push(planSection(date,plans[date],false));
+  $('plan-content').innerHTML=sections.join('')||'<p class="plan-day plan-note">此交易日尚无已归档的预案或回顾。</p>';
+}
+$('plans').addEventListener('click',event=>{
+  const button=event.target.closest('[data-plan-review]');
+  if(!button) return;
+  $('date').value=button.dataset.planReview;
+  $('date').dispatchEvent(new Event('change'));
+  $('plans').querySelector('summary').focus();
+});
+$('date').addEventListener('change',renderPlans);
+renderPlans();
 function updateReviewLink(){
   const date=$('date').value;
   const entry=$('review-entry');
@@ -176,7 +244,11 @@ $('date').addEventListener('change',updateReviewLink);
 updateReviewLink();
 $('date').addEventListener('change',()=>{const selected=group;renderDay();selectGroup(selected==='unknown'&&!snapshot()?.stocks.some(s=>s.group==='unknown')?'all':selected);});$('search').addEventListener('input',renderBoards);$('reason-filter').addEventListener('change',renderBoards);$('sort').addEventListener('change',renderBoards);$('reload').addEventListener('click',()=>location.reload());
 document.querySelectorAll('[data-nav-group]').forEach(button=>button.addEventListener('click',()=>selectGroup(button.dataset.navGroup,{navigate:true})));
-document.querySelector('nav a').addEventListener('click',()=>{showingMethodology=true;syncNavigation();});
+document.querySelectorAll('nav a').forEach(link=>link.addEventListener('click',()=>{
+  activeSection=link.hash;
+  if(activeSection==='#plans') $('plans').open=true;
+  syncNavigation();
+}));
 function csvCell(value){let text=String(value??'');if(/^[=+@\-\t\r\n]/.test(text))text="'"+text;return '"'+text.replace(/"/g,'""')+'"';}
 $('export').addEventListener('click',()=>{const day=snapshot();if(!day)return;const rows=visibleRows();const head=['交易日','代码','名称','连续板数','分类','价格','涨幅%','涨停原因','原因状态','原因来源','原因链接','行业','首次封板','末次封板','封板资金元','开板次数','换手率%','成交额元','抓取时间'];const body=rows.map(s=>[day.date,s.code,s.name,s.streak,boardName(s),s.price,s.change_pct,s.reason,s.reason_status,s.reason_source,s.reason_url,s.industry,s.first_limit_time,s.last_limit_time,s.seal_amount,s.open_count,s.turnover_pct,s.amount,day.fetched_at]);const blob=new Blob(['\ufeff'+[head,...body].map(row=>row.map(csvCell).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`涨停复盘_${day.date}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);$('status').textContent=`已导出 ${rows.length} 只股票（当前筛选结果）。CSV 导入表格软件时请将代码列设为文本以保留前导零。`;});
 renderDay();

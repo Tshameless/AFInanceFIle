@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import calendar
 from datetime import date, datetime, timedelta, timezone
 import json
 import math
@@ -9,6 +10,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import tempfile
 import time
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
@@ -25,11 +27,16 @@ PAGE_PATHS = (
 
 
 def fetch_json(url: str) -> dict:
+    referer = "https://quote.eastmoney.com/"
+    if "10jqka.com.cn/" in url:
+        referer = "https://data.10jqka.com.cn/"
+    elif url.startswith("https://www.szse.cn/"):
+        referer = "https://www.szse.cn/"
     for attempt in range(3):
         try:
             request = Request(url, headers={
                 "User-Agent": "Mozilla/5.0",
-                "Referer": "https://data.10jqka.com.cn/" if "10jqka" in url else "https://quote.eastmoney.com/",
+                "Referer": referer,
             })
             with urlopen(request, timeout=20) as response:
                 return json.loads(response.read().decode("utf-8-sig"))
@@ -211,6 +218,156 @@ def atomic_write(path: Path, content: str):
         temporary.unlink(missing_ok=True)
 
 
+def next_trading_day(written: date) -> date:
+    """深交所月历覆盖跨周末、节假日和年末；缺失日期时停止推算。"""
+    candidate = written + timedelta(days=1)
+    for _ in range(2):
+        url = f"https://www.szse.cn/api/report/exchange/onepersistenthour/monthList?month={candidate:%Y-%m}"
+        flags = {row["jyrq"]: row["jybz"] for row in fetch_json(url)["data"]}
+        last = candidate.replace(day=calendar.monthrange(candidate.year, candidate.month)[1])
+        while candidate <= last:
+            flag = str(flags.get(candidate.isoformat()))
+            if flag == "1":
+                return candidate
+            if flag != "0":
+                raise ValueError(f"交易日历缺少有效标记: {candidate}")
+            candidate += timedelta(days=1)
+    raise ValueError("交易日历未返回下一交易日")
+
+
+def save_daily_plan(snapshot, root=BASE_DIR):
+    written = date.fromisoformat(snapshot["date"])
+    path = root / "复盘笔记" / "预案" / f"{written}.json"
+    if path.exists() or snapshot["session"] != "盘后抓取快照" or written != datetime.now(CHINA).date():
+        return
+    rows = [s for s in snapshot["stocks"] if s["streak"]]
+    if not rows:
+        return
+    height = max(s["streak"] for s in rows)
+    cohorts = []
+    if height > 1:
+        cohorts.append(("leaders", f"{height}板股能否继续晋级", height, [s for s in rows if s["streak"] == height]))
+    firsts = sorted((s for s in rows if s["streak"] == 1 and s.get("first_limit_time")),
+                    key=lambda s: (s["first_limit_time"], s["code"]))[:3]
+    if firsts:
+        cohorts.append(("firsts", "最早首封的一组能否走出二板", 1, firsts))
+    if not cohorts:
+        return
+    items = []
+    for key, title, streak, stocks in cohorts:
+        items.append({
+            "id": key, "title": title,
+            "expectation": f"检验本组至少一只股票能否在下一交易日收盘达到 {streak + 1} 板。",
+            "check": f"逐只比对目标日同口径涨停池。记录达到 {streak + 1} 板的家数，并区分盘中触板和收盘封住。",
+            "watch": {s["code"]: s["name"] for s in stocks}, "required_streak": streak + 1,
+        })
+    plan = {"target_date": next_trading_day(written).isoformat(),
+            "source": "收盘同步按当日涨停池生成。首板按首封时间、同秒按代码排序，最多取三只。", "items": items}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    # 完整写入后以不覆盖方式发布；重试或并行抓取均保留最先归档的原案。
+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
+                                     suffix=".tmp", delete=False) as temp:
+        temporary = Path(temp.name)
+        temp.write(json.dumps(plan, ensure_ascii=False, indent=2) + "\n")
+    try:
+        os.link(temporary, path)
+    except FileExistsError:
+        pass
+    finally:
+        temporary.unlink(missing_ok=True)
+
+
+def review_promotion(item, stocks, same_pool):
+    required = item["required_streak"]
+    watched = [stocks[code] for code in item["watch"] if code in stocks]
+    hits = [s["name"] for s in watched if (s["streak"] or 0) >= required]
+    unknown = sum(s["streak"] is None for s in watched)
+    if not same_pool or (not hits and unknown):
+        return {"status": "证据不足", "actual": "收录口径不同或存在板数待核实的股票。",
+                "problem": "现有涨停池无法可靠判定整组晋级情况。", "next_time": "逐只核对连续两个交易日的收盘价和涨停状态。"}
+    return {"status": "兑现" if hits else "未兑现",
+            "actual": f"原组 {len(item['watch'])} 只，收盘达到 {required} 板的有 {len(hits)} 只"
+                      + (f"（{'、'.join(hits)}）。" if hits else "。")
+                      + (f"另有 {unknown} 只板数待确认。" if unknown else ""),
+            "problem": "组内出现晋级，仅验证了最低家数；组内个股的接力结果仍需分开看。" if hits
+                       else "按前一日板数或首封顺序选出的这一组，未能延续到目标日收盘。",
+            "next_time": "对照晋级与掉队个股的同题材跟随和首次开板后的表现，再判断筛选条件是否有区分度。"}
+
+
+def review_first_boards(item, stocks, same_pool):
+    results = {}
+    facts = []
+    for name, codes in item["promotion_groups"].items():
+        cohort = {"required_streak": 2, "watch": codes}
+        finding = review_promotion(cohort, stocks, same_pool)
+        results[name] = finding["status"]
+        facts.append(name + "：" + finding["actual"])
+    statuses = set(results.values())
+    if "证据不足" in statuses:
+        status = "证据不足"
+    elif len(statuses) == 1:
+        status = statuses.pop()
+    else:
+        status = "部分兑现"
+    return {"status": status, "actual": " ".join(facts),
+            "problem": "两组仅各选三只首板。晋级家数可以检验所选样本，无法衡量全行业上涨家数或确认谁带动谁。",
+            "next_time": "分别记录两组晋级率，把高位股封板时间与同业首次封板先后对照，再评价带动关系。"}
+
+
+def load_plans(directory: Path, days: dict) -> dict:
+    plans = {}
+    for path in sorted((directory / "预案").glob("*.json")):
+        plan = json.loads(path.read_text(encoding="utf-8"))
+        written = date.fromisoformat(path.stem)
+        target = date.fromisoformat(plan["target_date"])
+        items = plan["items"]
+        ids = {item["id"] for item in items}
+        if written >= target or not items or len(ids) != len(items):
+            raise ValueError(f"预案日期或条目标识无效: {path}")
+        if any(written.isoformat() < day < target.isoformat() for day in days):
+            raise ValueError(f"预案目标跨过已保存的交易日: {path}")
+        evidence = {}
+        review = {}
+        snapshot = days.get(plan["target_date"], {})
+        closed = snapshot.get("session") in {"盘后抓取快照", "历史补抓快照"}
+        if closed:
+            stocks = {stock["code"]: stock for stock in snapshot["stocks"]}
+            origin = days.get(path.stem, {}).get("pool_source", "").split("?")[0]
+            same_pool = bool(origin) and origin == snapshot.get("pool_source", "").split("?")[0]
+            for item in items:
+                facts = []
+                for code, name in item["watch"].items():
+                    stock = stocks.get(code)
+                    if not stock or stock["streak"] is None:
+                        result = "本日涨停池未收录" if not stock else "板数待核实"
+                    else:
+                        result = f'{stock["streak"]}板'
+                        if stock.get("last_limit_time"):
+                            result += f'，末封 {stock["last_limit_time"]}'
+                    facts.append(f"{name}：{result}")
+                evidence[item["id"]] = facts
+                if "required_streak" in item:
+                    review[item["id"]] = review_promotion(item, stocks, same_pool)
+                elif "promotion_groups" in item:
+                    review[item["id"]] = review_first_boards(item, stocks, same_pool)
+            review_path = directory / "预案回顾" / f"{target}.json"
+            if review_path.exists():
+                record = json.loads(review_path.read_text(encoding="utf-8"))
+                findings = record["items"]
+                if record["plan_date"] != path.stem or not set(findings).issubset(ids):
+                    raise ValueError(f"回顾与原预案不匹配: {review_path}")
+                for result in findings.values():
+                    if result["status"] not in {"兑现", "部分兑现", "未兑现", "未触发", "证据不足"} or not all(
+                        result.get(field) for field in ("actual", "problem", "next_time")
+                    ):
+                        raise ValueError(f"预案回顾缺少结论或复盘依据: {review_path}")
+                review.update(findings)
+        if any(saved["target_date"] == plan["target_date"] for saved in plans.values()):
+            raise ValueError(f"同一交易日对应多份原预案: {target}")
+        plans[path.stem] = {**plan, "closed": closed, "evidence": evidence, "review": review}
+    return plans
+
+
 def publish(snapshot=None, root=BASE_DIR):
     days = {}
     for path in sorted((root / "data" / "limit-up").glob("????-??-??.json")):
@@ -223,6 +380,7 @@ def publish(snapshot=None, root=BASE_DIR):
     payload = {"latest_date": max(days) if days else None, "days": days}
     review_dir = root / "复盘笔记"
     payload["review_dates"] = sorted(path.stem for path in review_dir.glob("*.html") if path.stem in days)
+    payload["plans"] = load_plans(review_dir, days)
     # JSON 内联时转义 HTML 元字符，防止来源文本提前结束 script 标签。
     embedded = json.dumps(payload, ensure_ascii=False, allow_nan=False).replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e")
     template = (root / "limit-up.template.html").read_text(encoding="utf-8")
@@ -248,6 +406,11 @@ def main(argv=None):
         if args.date and args.date > datetime.now(CHINA).date():
             raise ValueError("不能抓取未来日期")
         snapshot = None if args.render_only else collect(args.date or datetime.now(CHINA).date(), not args.date)
+        if snapshot:
+            try:
+                save_daily_plan(snapshot)
+            except (OSError, ValueError, KeyError, TypeError) as error:
+                print(f"次日预案未生成（可在今日收盘后重试）: {error}", file=sys.stderr)
         publish(snapshot)
         if snapshot:
             available = sum(row["reason_status"] == "available" for row in snapshot["stocks"])
