@@ -73,6 +73,19 @@ class BackfillTests(unittest.TestCase):
                 self.assertEqual(app.load_source(date(2025, 10, 28), root, 0), data)
                 fetch.assert_not_called()
 
+    def test_xgb_uses_session_timestamps_and_consecutive_days(self):
+        row = {"symbol": "603960.SS", "stock_chi_name": "克来机电", "limit_up_days": 1,
+               "m_days_n_boards_boards": 3, "first_limit_up": 1706758168, "change_percent": 0.10,
+               "surge_reason": {"related_plates": [{"plate_name": "机器人"}]}}
+        with patch.object(app.app, "fetch_json", return_value={"code": 20000, "data": [row]}):
+            snapshot = app.xgb_snapshot(date(2024, 2, 1))
+            stock = snapshot["stocks"][0]
+            self.assertEqual((stock["streak"], stock["first_limit_time"], stock["change_pct"]), (1, "11:29:28", 10))
+            self.assertEqual(stock["reason_source"], "选股宝题材标签")
+            self.assertIsNone(stock["amount"])
+            with self.assertRaises(ValueError):
+                app.xgb_snapshot(date(2024, 2, 2))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -116,20 +116,59 @@ def build_snapshot(saved, previous):
     }
 
 
-def backfill(start: date, end: date, root=app.BASE_DIR, delay=0.3):
+def xgb_snapshot(day: date):
+    url = f"https://flash-api.xuangubao.cn/api/pool/detail?pool_name=limit_up&date={day}"
+    result = app.fetch_json(url)
+    pool = result.get("data")
+    if result.get("code") != 20000 or not isinstance(pool, list) or not pool:
+        raise ValueError("选股宝未返回可核实的涨停池")
+    rows = []
+    codes = set()
+    for item in pool:
+        symbol = re.fullmatch(r"(\d{6})\.(SS|SZ|BJ)", item["symbol"])
+        if not symbol or symbol[1] in codes:
+            raise ValueError("选股宝代码无效或重复")
+        code = symbol[1]
+        codes.add(code)
+        times = {}
+        for field, key in (("first_limit_up", "fbt"), ("last_limit_up", "lbt")):
+            stamp = item.get(field)
+            if stamp:
+                instant = datetime.fromtimestamp(stamp, app.CHINA)
+                if instant.date() != day:
+                    raise ValueError(f"选股宝封板时间与请求日期不一致: {code}")
+                times[key] = instant.strftime("%H%M%S")
+        if not times:
+            raise ValueError(f"选股宝缺少可核对日期的封板时间: {code}")
+        detail = item.get("surge_reason") or {}
+        topics = [p["plate_name"] for p in detail.get("related_plates") or [] if p.get("plate_name")]
+        row = app.normalize({"c": code, "n": item["stock_chi_name"], "lbc": item.get("limit_up_days"),
+                             "zbc": item.get("break_limit_up_times"), **times},
+                            {code: {"reason_type": " + ".join(topics)}}, url)
+        row.update(price=app.number(item.get("price")), change_pct=app.number(item.get("change_percent"), 0.01),
+                   turnover_pct=app.number(item.get("turnover_ratio"), 0.01),
+                   reason_source="选股宝题材标签" if topics else "暂无来源")
+        rows.append(row)
+    return {"date": str(day), "requested_date": str(day), "stocks": rows,
+            "fetched_at": datetime.now(app.CHINA).isoformat(timespec="seconds"), "session": "历史补抓快照",
+            "pool_source": url, "reason_source": url, "pool_source_name": "选股宝历史涨停池",
+            "coverage": "选股宝当日收录范围", "warnings": [], "classification_method": "选股宝连续涨停天数 limit_up_days"}
+
+
+def backfill(start: date, end: date, root=app.BASE_DIR, delay=0.3, source="ths"):
     if start > end:
         raise ValueError("开始日期不能晚于结束日期")
     if end >= datetime.now(app.CHINA).date():
         raise ValueError("历史补抓结束日期必须早于北京时间今天")
     if (end - start).days > 400:
         raise ValueError("单次最多补抓 400 天，请拆分区间")
-    days, calendar_url = trading_calendar(start - timedelta(days=30), end)
+    days, calendar_url = trading_calendar(start - timedelta(days=30) if source == "ths" else start, end)
     targets = [day for day in days if day >= start]
     report_path = root / "data" / "backfill" / f"report_{start}_{end}.json"
     report = {
         "start": str(start), "end": str(end), "calendar_source": calendar_url,
         "calendar_basis": "腾讯行情上证指数日线日期（作为交易日期参考）",
-        "expected_trading_days": len(targets), "source": SOURCE_NAME,
+        "expected_trading_days": len(targets), "source": SOURCE_NAME if source == "ths" else "选股宝历史涨停池",
         "entries": [], "warmup_failures": [], "complete": False,
     }
     previous = None
@@ -137,9 +176,10 @@ def backfill(start: date, end: date, root=app.BASE_DIR, delay=0.3):
         path = root / "data" / "limit-up" / f"{day}.json"
         in_range = day >= start
         try:
-            saved = load_source(day, root, delay)
-            derived = build_snapshot(saved, previous)
-            previous = {s["code"]: s for s in derived["stocks"]}
+            if source == "ths":
+                saved = load_source(day, root, delay)
+                derived = build_snapshot(saved, previous)
+                previous = {s["code"]: s for s in derived["stocks"]}
             if not in_range:
                 continue
             if path.exists():
@@ -149,9 +189,11 @@ def backfill(start: date, end: date, root=app.BASE_DIR, delay=0.3):
                 snapshot = existing
                 status = "preserved"
             else:
-                snapshot = derived
+                snapshot = derived if source == "ths" else xgb_snapshot(day)
                 app.atomic_write(path, json.dumps(snapshot, ensure_ascii=False, indent=2, allow_nan=False) + "\n")
                 status = "saved"
+                if source == "xgb" and delay:
+                    time.sleep(delay)
             report["entries"].append({
                 "date": str(day), "status": status, "stocks": len(snapshot["stocks"]),
                 "reasons": sum(s["reason_status"] == "available" for s in snapshot["stocks"]),
@@ -183,12 +225,13 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--start", type=date.fromisoformat, required=True)
     parser.add_argument("--end", type=date.fromisoformat, required=True)
+    parser.add_argument("--source", choices=("ths", "xgb"), default="ths", help="历史来源：同花顺或选股宝")
     parser.add_argument("--delay", type=float, default=0.3, help="每次请求后的间隔秒数，默认 0.3")
     args = parser.parse_args(argv)
     if not 0 <= args.delay <= 60:
         parser.error("--delay 必须在 0 到 60 秒之间")
     try:
-        report, path = backfill(args.start, args.end, delay=args.delay)
+        report, path = backfill(args.start, args.end, delay=args.delay, source=args.source)
         print(json.dumps({k: v for k, v in report.items() if k not in ("entries", "warmup_failures")}, ensure_ascii=False, indent=2))
         print(f"逐日补抓报告: {path}")
         return 0 if report["complete"] else 1

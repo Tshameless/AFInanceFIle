@@ -76,3 +76,35 @@ test('五年范围之外的数据不纳入；无记录返回空索引',()=>{
  assert.equal(run(ctx,"buildHistoryIndex('2026-10-28').savedDates.length"),1);
  assert.equal(run(ctx,"buildHistoryIndex('2019-01-01').episodes.length"),0);
 });
+
+test('首板覆盖一日游、晋级和未到期样本，历史日不显示未来题材或结果',()=>{
+ const ctx=context([
+  ['2024-02-01',[stock('A',1),stock('B',1),stock('M',8,'传媒')]],
+  ['2024-02-02',[stock('A',2,'算力'),stock('C',1),stock('X',1,'算力')]],
+  ['2024-02-05',[]],['2024-02-06',[stock('A',1)]],['2024-02-07',[]],
+  ['2024-02-08',[stock('A',1)]],
+ ]);
+ run(ctx,"for(const day of Object.values(DATA.days)){day.session='历史补抓快照';day.pool_source='https://pool/?date='+day.date}");
+ const get=(asOf)=>JSON.parse(run(ctx,`JSON.stringify(buildHistoryIndex('${asOf}').episodes.filter(e=>e.code==='A').map(e=>firstBoardCase(e,'${asOf}')))`));
+ assert.deepEqual(get('2024-02-08').map(c=>c.result),['晋级','未晋级','待核实']);
+ assert.equal(get('2024-02-01')[0].later.length,0);
+ const first=get('2024-02-02')[0];
+ assert.deepEqual(first.peers.map(s=>s.code),['B']);
+ assert.deepEqual(first.later[0].newcomers.map(s=>s.code),['C']);
+ assert.deepEqual(first.later[0].missing.map(s=>s.code),['B']);
+});
+
+test('日历缺页、异源、盘中及板数未知均不能算作未晋级，不跨长缺口',()=>{
+ const ctx=context([['2024-02-01',[stock('A',1)]],['2024-02-02',[]],['2026-11-20',[stock('A',2)]]]);
+ run(ctx,"for(const d of Object.values(DATA.days)){d.session='历史补抓快照';d.pool_source='https://a/pool'}");
+ const result=()=>run(ctx,"firstBoardCase(buildHistoryIndex('2026-11-20').episodes[0],'2026-11-20').result");
+ run(ctx,"DATA.days['2024-02-02'].pool_source='https://b/pool'");
+ assert.equal(result(),'待核实');
+ run(ctx,"DATA.days['2024-02-02'].pool_source='https://a/pool'; DATA.days['2024-02-02'].session='盘中快照'");
+ assert.equal(result(),'待核实');
+ run(ctx,"DATA.days['2024-02-02'].session='盘后抓取快照'; DATA.days['2024-02-02'].stocks=[{code:'A',streak:null}]");
+ assert.equal(result(),'待核实');
+ run(ctx,"DATA.next_sessions={'2024-02-01':'2024-02-02','2024-02-02':'2024-02-05'}");
+ assert.equal(run(ctx,"firstBoardCase(buildHistoryIndex('2026-11-20').episodes[0],'2026-11-20').later[1].day"),undefined);
+ assert.equal(run(ctx,"nextSession('2024-02-05')"),null);
+});

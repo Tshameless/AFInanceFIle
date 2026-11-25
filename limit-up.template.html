@@ -33,6 +33,17 @@ body{font-size:13px}button,input,select{background:#1b1e21;border-color:var(--li
 .plan-item dl{display:grid;grid-template-columns:6em 1fr;gap:5px 10px;margin:3px 0 12px}.plan-item dt{color:var(--muted)}.plan-item dd{margin:0;overflow-wrap:anywhere}
 @media(max-width:700px){.plan-item dl{display:block}.plan-item dt{margin-top:8px}.plan-item summary span{white-space:nowrap}}
 </style>
+<style>
+.history-switch{display:flex;gap:6px;margin-top:7px}.history-switch button{padding:3px 9px;font-size:12px}
+.history-switch button[aria-pressed="true"]{border-color:#608bb6;color:#bad9fc;background:#233447}
+.first-summary{padding:12px 0;border-bottom:1px solid var(--line)}.first-summary p,.first-case p{margin:4px 0}
+.first-summary strong,.first-case h4{color:var(--ink)}.first-counts{font-size:15px}
+.first-case{border-bottom:1px solid var(--line);padding:8px 0}.first-case>summary{font-weight:650}
+.first-case summary::before{content:'▸ ';color:var(--primary)}.first-case details[open]>summary::before,.first-case[open]>summary::before{content:'▾ '}
+.first-case summary:focus-visible{outline:2px solid var(--primary);outline-offset:1px}
+.first-case h4{font-size:13px;margin:10px 0 3px}.first-list{line-height:1.8;overflow-wrap:anywhere}
+.first-case small{font-weight:400;color:var(--muted);margin-left:8px}.first-day{padding:4px 0}.first-day+ .first-day{border-top:1px dashed var(--line)}
+</style>
 </head>
 <body>
 <div class="app">
@@ -51,10 +62,14 @@ body{font-size:13px}button,input,select{background:#1b1e21;border-color:var(--li
   <div id="plan-content"></div>
 </details>
 <div id="boards" tabindex="-1" aria-label="涨停分类结果"></div>
-<footer class="foot" id="methodology"><h2>数据口径与更新方式</h2><p>首板、二板、三板分别表示连续 1、2、3 个交易日涨停；四板及以上独立展示。每日同步取东方财富连续涨停字段；同花顺历史补抓按实际交易日的涨停名单逐日核算，并核对明确的连续板形态。不将“多天多板”直接当作连续涨停，无法确认时列为板数待核实。</p><p>涨停池按当日来源接口收录范围展示，东方财富与同花顺历史池口径可能不同，不代表完整市场覆盖。原因取同一交易日、同一股票代码的同花顺涨停原因标签。标签属于来源归因，未经独立核实，不能据此认定实际因果。历史来源未返回的封板时间、成交额等字段留空。</p><p id="sources"></p><p>抓取时间为北京时间。页面展示已保存快照，盘中数据会变化，盘后抓取也不保证来源已最终更新。“重新读取快照”只重载页面；获取新行情请运行本地脚本，或使用仓库每日自动任务。</p><details><summary>如何抓取和历史复盘</summary><p>Windows 双击“一键刷新行情.bat”；命令行执行 <code>python sync_limit_up.py</code>。补抓区间执行 <code>python backfill_limit_up.py --start 2025-10-28 --end 2026-10-27</code>，支持缓存续抓。历史选项仅包含已成功保存的快照。</p></details></footer>
+<footer class="foot" id="methodology"><h2>数据口径与更新方式</h2><p>首板、二板、三板分别表示连续 1、2、3 个交易日涨停。每日同步取东方财富连续涨停字段。同花顺历史补抓按交易日核对名单及来源形态。选股宝历史池使用连续涨停天数，并逐股校验封板时间所属的交易日。无法确认的板数单列。</p>
+<p>各来源涨停池的收录范围可能不同。题材标签取同日同股的来源记录，时间均为北京时间。来源缺失的封板时间、成交额等字段留空。盘中快照可能变化。</p><p id="sources"></p>
+<details><summary>如何抓取和历史复盘</summary><p>Windows 双击“一键刷新行情.bat”或运行 <code>python sync_limit_up.py</code>。补抓区间可运行 <code>python backfill_limit_up.py --start 2025-10-28 --end 2026-10-27</code>。日期选择器只包含成功保存的快照。“重新读取快照”重载已生成的页面。</p></details></footer>
 </main></div>
 <dialog id="history-dialog" class="history-dialog" aria-labelledby="history-title" aria-describedby="history-description">
-<header class="history-header"><div class="history-heading"><h2 id="history-title">历史同批</h2><p class="history-description" id="history-description"></p><div class="history-legend"><span><span class="relation relation-first">先手</span> 更早启动</span><span><span class="relation relation-same">同日启动</span> 相同起点</span><span><span class="relation relation-follow">补涨跟随</span> 更晚启动、较低高度</span><span>关系为日期与高度的规则归类，不代表因果。</span></div></div><button type="button" class="history-close" id="history-close" aria-label="关闭历史同批">关闭</button></header>
+<header class="history-header"><div class="history-heading"><h2 id="history-title">历史同批</h2><p class="history-description" id="history-description"></p>
+<div class="history-switch" role="group" aria-label="历史对照类型"><button type="button" data-history-view="first" aria-controls="history-content">首板历史对照</button><button type="button" data-history-view="streak" aria-controls="history-content">三板及以上</button></div>
+<div class="history-legend" id="streak-legend"><span><span class="relation relation-first">先手</span> 更早启动</span><span><span class="relation relation-same">同日启动</span> 相同起点</span><span><span class="relation relation-follow">补涨跟随</span> 更晚启动、较低高度</span><span>关系为日期与高度的规则归类，不代表因果。</span></div></div><button type="button" class="history-close" id="history-close" aria-label="关闭历史同批">关闭</button></header>
 <div id="history-content" class="history-content"></div>
 </dialog>
 <script id="limit-up-data" type="application/json">__LIMIT_UP_DATA__</script>
@@ -84,15 +99,31 @@ function fmt(n,d=2){return n===null||n===undefined?'—':Number(n).toFixed(d);}
 function money(n){return n===null||n===undefined?'—':n>=1e8?`${fmt(n/1e8)} 亿`:`${fmt(n/1e4)} 万`;}
 function boardName(s){return s.streak===1?'首板':s.streak?`${s.streak} 连板`:'待核实';}
 function visibleRows(){const day=snapshot();if(!day)return [];const q=$('search').value.trim().toLowerCase();const state=$('reason-filter').value;return day.stocks.filter(s=>(group==='all'||s.group===group)&&(state==='all'||s.reason_status===state)&&(!q||[s.code,s.name,s.reason,s.industry].some(v=>String(v||'').toLowerCase().includes(q)))).sort((a,b)=>{switch($('sort').value){case 'seal':return (b.seal_amount??-Infinity)-(a.seal_amount??-Infinity)||a.code.localeCompare(b.code);case 'change':return (b.change_pct??-Infinity)-(a.change_pct??-Infinity)||a.code.localeCompare(b.code);case 'code':return a.code.localeCompare(b.code);default:return (a.first_limit_time||'99').localeCompare(b.first_limit_time||'99')||a.code.localeCompare(b.code);}});}
-function stockRow(s){return `<tr><td class="stock"><strong>${esc(s.name)}</strong><span class="code">${esc(s.code)}</span><span class="secondary">${esc(s.industry)}</span><button class="history-trigger" type="button" data-history-code="${esc(s.code)}" aria-haspopup="dialog" aria-label="查看${esc(s.name)}的历史同批">历史同批 ↗</button></td><td><span class="badge ${s.streak>=3?'high':''}">${esc(boardName(s))}</span>${s.source_pattern?`<span class="secondary">来源形态：${esc(s.source_pattern)}</span>`:''}</td><td class="num">${fmt(s.price)}<span class="secondary up">${s.change_pct==null?'—':`${s.change_pct>=0?'+':''}${fmt(s.change_pct)}%`}</span></td><td class="reason"><div class="reason-text ${s.reason_status==='missing'?'missing':''}">${esc(s.reason)}</div><span class="source">${s.reason_status==='available'?safeLink(s.reason_url,s.reason_source):'原因待补充 · 不以行业推断'}</span></td><td class="num">${esc(s.first_limit_time||'—')}<span class="secondary">末次 ${esc(s.last_limit_time||'—')}</span></td><td class="num">${money(s.seal_amount)}<span class="secondary">开板 ${fmt(s.open_count,0)} 次</span></td><td class="num">${fmt(s.turnover_pct)}%<span class="secondary">成交 ${money(s.amount)}</span></td></tr>`;}
+function stockRow(s){
+  const historyLabel=s.streak===1?'首板历史对照':'历史同批';
+  return `<tr><td class="stock"><strong>${esc(s.name)}</strong><span class="code">${esc(s.code)}</span><span class="secondary">${esc(s.industry)}</span><button class="history-trigger" type="button" data-history-code="${esc(s.code)}" aria-haspopup="dialog" aria-label="查看${esc(s.name)}的${historyLabel}">${historyLabel} ↗</button></td>
+    <td><span class="badge ${s.streak>=3?'high':''}">${esc(boardName(s))}</span>${s.source_pattern?`<span class="secondary">来源形态：${esc(s.source_pattern)}</span>`:''}</td>
+    <td class="num">${fmt(s.price)}<span class="secondary up">${s.change_pct==null?'—':`${s.change_pct>=0?'+':''}${fmt(s.change_pct)}%`}</span></td>
+    <td class="reason"><div class="reason-text ${s.reason_status==='missing'?'missing':''}">${esc(s.reason)}</div><span class="source">${s.reason_status==='available'?safeLink(s.reason_url,s.reason_source):'原因待补充 · 不以行业推断'}</span></td>
+    <td class="num">${esc(s.first_limit_time||'—')}<span class="secondary">末次 ${esc(s.last_limit_time||'—')}</span></td>
+    <td class="num">${money(s.seal_amount)}<span class="secondary">开板 ${fmt(s.open_count,0)} 次</span></td>
+    <td class="num">${fmt(s.turnover_pct)}%<span class="secondary">成交 ${money(s.amount)}</span></td></tr>`;
+}
 function renderStats(){const rows=snapshot()?.stocks||[];const cards=[['all','涨停总数','来源收录个股'],...GROUPS.slice(0,4)];if(rows.some(s=>s.group==='unknown'))cards.push(GROUPS[4]);$('stats').innerHTML=cards.map(([key,title,note])=>`<button type="button" class="stat ${group===key?'active':''}" data-group="${key}" aria-pressed="${group===key}"><span class="stat-label">${esc(title)}</span><span class="stat-value">${key==='all'?rows.length:rows.filter(s=>s.group===key).length}</span><span class="stat-note">${esc(note)}</span></button>`).join('');$('stats').querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{const next=button.dataset.group;selectGroup(next);$('stats').querySelector(`[data-group="${next}"]`).focus({preventScroll:true});}));syncNavigation();}
 function renderBoards(){const rows=visibleRows();$('result-count').textContent=`显示 ${rows.length} / ${snapshot()?.stocks.length||0} 只`;$('export').disabled=rows.length===0;if(!snapshot()){$('boards').innerHTML='<div class="empty">暂无已保存数据。请先运行“一键刷新行情.bat”抓取涨停池。</div>';return;}if(!rows.length){$('boards').innerHTML='<div class="empty">没有符合当前筛选条件的股票。可清空搜索或切换连板、原因筛选。</div>';return;}$('boards').innerHTML=GROUPS.filter(([key])=>group==='all'||group===key).map(([key,title,note])=>{const list=rows.filter(s=>s.group===key);if(!list.length)return '';return `<section class="section" id="board-${key==='4+'?'4plus':key}"><div class="section-heading"><h2>${title} <span> / ${list.length} 只</span></h2><span>${note}</span></div><div class="table-wrap" tabindex="0" role="region" aria-label="${title}涨停股票列表"><table><thead><tr><th scope="col">股票 / 行业</th><th scope="col">连板高度</th><th scope="col">价格 / 涨幅</th><th scope="col">涨停原因 · 来源标签</th><th scope="col">封板时间</th><th scope="col">封板资金 / 开板</th><th scope="col">换手 / 成交</th></tr></thead><tbody>${list.map(stockRow).join('')}</tbody></table></div></section>`;}).join('');}
-function renderDay(){const day=snapshot();group='all';$('status').textContent='';if(day){const covered=day.stocks.filter(s=>s.reason_status==='available').length;const stamp=new Date(day.fetched_at).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false});$('metadata').innerHTML=`<span class="pill">${esc(day.session)}</span><span>交易日 <strong>${esc(day.date)}</strong></span><span>抓取 ${esc(stamp)}（北京）</span><span>原因覆盖 ${covered} / ${day.stocks.length}</span>`;const warnings=[...(day.warnings||[])];const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai'}).format(new Date());if(day.date!==today)warnings.push(`当前展示 ${day.date} 的历史快照，并非今日实时行情。`);if(day.requested_date!==day.date)warnings.push(`请求日期 ${day.requested_date} 无可用池，已回退至 ${day.date}。`);if(day.session==='盘中快照')warnings.push('当前为盘中抓取快照，涨停数量、连板状态及原因可能变化。');$('notice').textContent=warnings.join(' ');$('notice').hidden=!warnings.length;$('sources').innerHTML=`本日来源：${safeLink(day.pool_source,day.pool_source_name||'东方财富涨停池')} · ${day.reason_source?safeLink(day.reason_source,'同花顺原因接口'):'同花顺原因暂不可用'}`;}else{$('metadata').textContent='尚未抓取数据';$('notice').hidden=true;$('sources').textContent='';}renderStats();renderBoards();}
+function renderDay(){const day=snapshot();group='all';$('status').textContent='';if(day){const covered=day.stocks.filter(s=>s.reason_status==='available').length;const stamp=new Date(day.fetched_at).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false});$('metadata').innerHTML=`<span class="pill">${esc(day.session)}</span><span>交易日 <strong>${esc(day.date)}</strong></span><span>抓取 ${esc(stamp)}（北京）</span><span>原因覆盖 ${covered} / ${day.stocks.length}</span>`;const warnings=[...(day.warnings||[])];const today=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Shanghai'}).format(new Date());if(day.date!==today)warnings.push(`当前展示 ${day.date} 的历史快照，并非今日实时行情。`);if(day.requested_date!==day.date)warnings.push(`请求日期 ${day.requested_date} 无可用池，已回退至 ${day.date}。`);if(day.session==='盘中快照')warnings.push('当前为盘中抓取快照，涨停数量、连板状态及原因可能变化。');$('notice').textContent=warnings.join(' ');$('notice').hidden=!warnings.length;$('sources').innerHTML=`本日来源：${safeLink(day.pool_source,day.pool_source_name||'东方财富涨停池')} · ${day.reason_source?safeLink(day.reason_source,'题材标签来源'):'题材标签暂不可用'}`;}else{$('metadata').textContent='尚未抓取数据';$('notice').hidden=true;$('sources').textContent='';}renderStats();renderBoards();}
 // 仅从截至所选日期的快照建模，避免历史复盘混入未来行情。
 let historyIndexCache=null;
 function reasonTopics(stock){
   if(stock.reason_status!=='available')return [];
-  return [...new Set(String(stock.reason||'').split(/[+＋、,，;；/|]/).map(s=>s.trim()).filter(s=>s&&!/^(未提供|待核实|涨停原因待核实|暂无)$/.test(s)))];
+  return [...new Set(String(stock.reason||'').split(/[+＋、,，;；/|]/).map(s=>s.trim()).filter(s=>s&&!/^(未提供|待核实|涨停原因待核实|暂无|其他|其它)$/.test(s)))];
+}
+function nextSession(date){
+  if(DATA.next_sessions?.[date])return DATA.next_sessions[date];
+  const next=new Date(`${date}T00:00:00Z`);
+  do{next.setUTCDate(next.getUTCDate()+1);}while([0,6].includes(next.getUTCDay()));
+  const weekday=next.toISOString().slice(0,10);
+  return DATA.days[weekday]?weekday:null;
 }
 function buildHistoryIndex(asOf){
   if(historyIndexCache?.asOf===asOf)return historyIndexCache;
@@ -100,14 +131,16 @@ function buildHistoryIndex(asOf){
   const lower=cutoff.toISOString().slice(0,10);
   const savedDates=Object.keys(DATA.days).filter(d=>d<=asOf&&d>=lower).sort();
   const episodes=[],last=new Map(),marketHeights=[];
+  let segment=0;
   savedDates.forEach((date,index)=>{
+    if(index&&nextSession(savedDates[index-1])!==date){last.clear();segment++;}
     let maximum=0;
     for(const stock of DATA.days[date].stocks){
       if(!Number.isInteger(stock.streak)||stock.streak<1)continue;
       maximum=Math.max(maximum,stock.streak);
       let episode=last.get(stock.code);
       if(!episode||episode.endIndex!==index-1||stock.streak!==episode.height+1){
-        episode={code:stock.code,name:stock.name,start:date,end:date,startIndex:index,endIndex:index,height:0,completeStart:stock.streak===1,records:[],topics:new Set()};
+        episode={code:stock.code,name:stock.name,start:date,end:date,startIndex:index,endIndex:index,segment,height:0,completeStart:stock.streak===1,records:[],topics:new Set()};
         episodes.push(episode);last.set(stock.code,episode);
       }
       episode.name=stock.name;episode.end=date;episode.endIndex=index;episode.height=stock.streak;
@@ -135,7 +168,7 @@ function episodePrices(episode){
 function relatedEpisodes(anchor,index){
   const peers=[];
   for(const other of index.episodes){
-    if(other.code===anchor.code||other.height<2||!other.completeStart)continue;
+    if(other.segment!==anchor.segment||other.code===anchor.code||other.height<2||!other.completeStart)continue;
     const common=[...other.topics].filter(t=>anchor.topics.has(t));
     const nearby=other.startIndex<=anchor.endIndex+5&&other.endIndex>=anchor.startIndex-5;
     let relation=null;
@@ -173,17 +206,140 @@ function historyEpisodeMarkup(episode,index){
   const ongoing=episode.end===index.savedDates.at(-1)?'<span class="episode-meta">截至所选日 · 尚未确认结束</span>':'';
   return `<section class="history-episode"><div class="episode-summary"><h3>${episode.start} ~ ${episode.end.slice(5)}　${episode.height}板</h3>${episodePrices(episode)}<span>题材： ${topics.slice(0,4).map(t=>`<span class="topic-tag">${esc(t)}</span>`).join(' ')||'<span class="episode-meta">来源未提供</span>'}</span><span class="episode-meta">峰值日来源最高 ${index.marketHeights[episode.endIndex]}板</span>${partial}${ongoing}</div><div class="episode-path">${path}</div>${peers.length?peerTable(peers.slice(0,12)):'<p class="history-description">已保存数据内暂无满足条件的同期个股。</p>'}${peers.length>12?`<details><summary class="peer-more">展开其余 ${peers.length-12} 条同期记录</summary>${peerTable(peers.slice(12))}</details>`:''}</section>`;
 }
-function openHistory(code){
+function closedPool(day){return ['历史补抓快照','盘后抓取快照'].includes(day?.session);}
+function comparablePool(a,b){
+  return closedPool(a)&&closedPool(b)&&!!a.pool_source&&a.pool_source.split('?')[0]===b.pool_source?.split('?')[0];
+}
+function topicPeers(stock,rows){
+  const topics=new Set(reasonTopics(stock));
+  return rows.filter(s=>s.code!==stock.code&&reasonTopics(s).some(t=>topics.has(t))).sort(
+    (a,b)=>(a.first_limit_time||'99').localeCompare(b.first_limit_time||'99')||a.code.localeCompare(b.code));
+}
+function firstBoardCase(episode,asOf){
+  const date=episode.start, origin=DATA.days[date], stock=episode.records[0].stock;
+  const peers=topicPeers(stock,origin.stocks), later=[];
+  const cohort=new Map(peers.map(s=>[s.code,s]));
+  let previous=origin,previousPeers=peers, cursor=date;
+  for(let offset=1;offset<=5;offset++){
+    const next=nextSession(cursor);
+    if(!next||next>asOf)break;
+    const day=DATA.days[next];
+    const own=day?.stocks.find(s=>s.code===stock.code);
+    const comparable=comparablePool(origin,day);
+    const matching=topicPeers(stock,day?.stocks||[]);
+    const newcomers=matching.filter(s=>s.streak===1&&!cohort.has(s.code));
+    const present=(day?.stocks||[]).filter(s=>cohort.has(s.code));
+    const codes=new Set(present.map(s=>s.code));
+    const missing=comparablePool(previous,day)?previousPeers.filter(s=>!codes.has(s.code)):[];
+    later.push({date:next,day,own,comparable,present,missing,newcomers});
+    if(closedPool(day))newcomers.forEach(s=>cohort.set(s.code,s));
+    previous=day;previousPeers=[...present,...newcomers];cursor=next;
+  }
+  let result='待核实';
+  const next=later[0];
+  if(next?.comparable){
+    if(next.own?.streak===2)result='晋级';
+    else if(!next.own)result='未晋级';
+  }
+  return {date,stock,origin,peers,later,result};
+}
+function firstStockList(rows,anchor){
+  if(!rows.length)return '无';
+  const topics=anchor?reasonTopics(anchor):[];
+  return rows.map(s=>{
+    const common=reasonTopics(s).filter(t=>topics.includes(t));
+    return `${esc(s.name)}（${esc(s.code)}，${esc(boardName(s))}${s.first_limit_time?'，'+esc(s.first_limit_time):''}${common.length?'，'+esc(common.join(' / ')):''}）`;
+  }).join('、');
+}
+function firstList(label,rows,anchor){
+  if(!rows.length)return '';
+  const names=firstStockList(rows,anchor);
+  return rows.length<=6?`<p class="first-list"><strong>${label}</strong>　${names}</p>`:
+    `<details><summary>${label} · ${rows.length} 只</summary><p class="first-list">${names}</p></details>`;
+}
+function firstCaseMarkup(item){
+  const {date,stock,origin,peers,later}=item;
+  const max=origin.stocks.reduce((height,s)=>Math.max(height,s.streak||0),0);
+  return `<h4>首板当天 · ${date}</h4><p>${esc(stock.name)}　首封 ${esc(stock.first_limit_time||'时间未提供')}　${esc(stock.reason)}　${safeLink(origin.pool_source,origin.pool_source_name||'当日涨停池')}</p>
+    ${max?firstList('来源池最高板',origin.stocks.filter(s=>s.streak===max)):'<p>来源池最高板待核实</p>'}
+    ${firstList('同题材已连板',peers.filter(s=>s.streak>1),stock)}${firstList('同题材同日首板',peers.filter(s=>s.streak===1),stock)}${firstList('同题材板数待核实',peers.filter(s=>!s.streak),stock)}
+    ${peers.length?'':'<p class="history-description">当日来源标签未匹配到同期股。</p>'}
+    <details><summary>查看当日连板梯队</summary><p class="first-list">${firstStockList(origin.stocks.filter(s=>s.streak>=2).sort((a,b)=>b.streak-a.streak||a.code.localeCompare(b.code)))}</p></details>
+    <h4>随后五个交易日</h4><div>${firstOutcomes(stock,later)}</div>`;
+}
+function firstOutcomes(stock,later){
+  const rows=later.map((step,i)=>{
+    if(!step.day)return `<p>第 ${i+1} 日 · ${step.date}　缺少快照</p>`;
+    const own=step.own?boardName(step.own):(step.comparable?'同口径池未收录':'该日池未收录');
+    return `<details class="first-day"><summary>第 ${i+1} 日 · ${step.date}　${esc(stock.name)}：${esc(own)} <small>${esc(step.day.session)}</small></summary>
+      ${firstList('既有同批本日在池',step.present)}${firstList('本日未入池（列示前一日记录）',step.missing)}
+      ${firstList('后来首次加入的同题材首板',step.newcomers,stock)}
+      <p class="history-description">${safeLink(step.day.pool_source,'当日涨停池')}${step.comparable?'':' · 跨来源或非收盘快照，未入池不能确认断板。'}</p></details>`;
+  }).join('');
+  return rows+(later.length<5?'<p class="history-description">截至观察日，后续五日尚未全部覆盖。</p>':'');
+}
+function firstBoardMarkup(stock,index){
+  const cases=index.episodes.filter(ep=>ep.code===stock.code&&ep.completeStart).reverse().map(ep=>firstBoardCase(ep,index.asOf));
+  const promoted=cases.filter(c=>c.result==='晋级').length, failed=cases.filter(c=>c.result==='未晋级').length;
+  const current=index.episodes.find(ep=>ep.code===stock.code&&ep.end===index.asOf);
+  const boundary=current?.start||index.asOf;
+  const historical=new Set();
+  const prior=cases.filter(c=>c.date<boundary&&closedPool(c.origin));
+  for(const item of prior){
+    item.peers.forEach(s=>historical.add(s.code));
+    item.later.filter(d=>d.date<boundary&&closedPool(d.day)).forEach(d=>d.newcomers.forEach(s=>historical.add(s.code)));
+  }
+  const today=DATA.days[index.asOf].stocks;
+  const peers=topicPeers(stock,today);
+  const overlap=today.filter(s=>historical.has(s.code)).sort((a,b)=>(a.first_limit_time||'99').localeCompare(b.first_limit_time||'99')||a.code.localeCompare(b.code));
+  const unmatched=peers.filter(s=>!historical.has(s.code));
+  const compare=historical.size?`${firstList('历史同批再次涨停',overlap,stock)||'<p>历史同批再次涨停　0 只</p>'}${firstList('历史样本未匹配的同题材股',unmatched,stock)}`:
+    `<p class="history-description">此前样本缺少可对照的同批名单。</p>${firstList('所选日同题材涨停股',peers,stock)}`;
+  return `<div class="first-summary"><p class="first-counts"><strong>收录首板 ${cases.length} 次</strong>　次日晋级 ${promoted} 次 / 可判定 ${promoted+failed} 次</p>
+    <p class="history-description">未晋级 ${failed} 次 · 待核实 ${cases.length-promoted-failed} 次。仅将相邻交易日的同来源收盘样本计入分母。</p></div>
+    <details class="first-case" open><summary>所选日同批对照 · ${index.asOf}</summary>${compare}${peers.length?'':'<p class="history-description">所选日没有匹配到同题材个股。</p>'}</details>
+    ${cases.map((item,i)=>{
+      const next=nextSession(item.later.at(-1)?.date||item.date);
+      const canReplay=item.later.length<5&&next>index.asOf&&DATA.days[next];
+      const replay=canReplay?`<button type="button" class="history-trigger" data-replay="${esc(item.date)}">事后回看：展开所选日之后的记录</button>`:'';
+      return `<details class="first-case"${i===0?' open':''}><summary>${item.date} 首板 <small>${esc(item.origin.session)} · 次日${item.result}</small></summary>${firstCaseMarkup(item)}${replay}</details>`;
+    }).join('')||'<p class="history-empty">已收录快照里没有这只股票的首板记录。</p>'}`;
+}
+function openHistory(code,view){
   const asOf=$('date').value;if(!asOf)return;
   const index=buildHistoryIndex(asOf),stock=snapshot()?.stocks.find(s=>s.code===code);
   const episodes=index.episodes.filter(ep=>ep.code===code&&ep.height>=3).reverse();
-  $('history-title').textContent=`${stock?.name||episodes[0]?.name||code} · 历史同批`;
+  view=view||(stock?.streak===1?'first':'streak');
+  const dialog=$('history-dialog');
+  dialog.dataset.code=code;
+  dialog.querySelectorAll('[data-history-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.historyView===view)));
+  $('streak-legend').hidden=view==='first';
+  $('history-title').textContent=`${stock?.name||code} · ${view==='first'?'首板历史对照':'历史同批'}`;
+  if(view==='first'){
+    $('history-description').textContent=`截至 ${asOf}，查询近五年已保存的 ${index.savedDates.length} 个快照日。同批按当日共同题材匹配。时间为首次封板时刻。`;
+    $('history-content').innerHTML=firstBoardMarkup(stock,index);
+  }else{
   $('history-description').textContent=`近5年已保存的3板及以上行情（新的在前）。实际覆盖 ${index.savedDates[0]||'—'} ~ ${asOf}，共 ${index.savedDates.length} 个快照日。下行是自身连板路径；同批按共同题材、前后5个快照日与板数归类，仅作规则参考。形态仅展示来源可验证的竞价封板、开板次数。`;
   $('history-content').innerHTML=episodes.length?episodes.map(ep=>historyEpisodeMarkup(ep,index)).join(''):'<div class="history-empty">截至所选日期，已保存快照中暂无该股3板及以上的连板记录。<br>仅展示真实本地记录，可补抓历史后重新生成页面。</div>';
+  }
   if(!$('history-dialog').open)$('history-dialog').showModal();
   $('history-content').scrollTop=0;
 }
 $('boards').addEventListener('click',event=>{const button=event.target.closest('[data-history-code]');if(button)openHistory(button.dataset.historyCode);});
+$('history-content').addEventListener('click',event=>{
+  const button=event.target.closest('[data-replay]');
+  if(!button)return;
+  const index=buildHistoryIndex($('date').value);
+  const episode=index.episodes.find(ep=>ep.code===$('history-dialog').dataset.code&&ep.start===button.dataset.replay);
+  const item=firstBoardCase(episode,DATA.latest_date);
+  const outcomes=button.previousElementSibling;
+  outcomes.innerHTML=`<p class="history-description">事后回看 · 包含所选日之后的归档。顶部统计仍截至 ${esc(index.asOf)}。</p>`+firstOutcomes(item.stock,item.later);
+  outcomes.tabIndex=-1;outcomes.focus();button.remove();
+});
+$('history-dialog').querySelector('.history-switch').addEventListener('click',event=>{
+  const button=event.target.closest('[data-history-view]');
+  if(button)openHistory($('history-dialog').dataset.code,button.dataset.historyView);
+});
 $('history-close').addEventListener('click',()=>$('history-dialog').close());
 $('history-dialog').addEventListener('click',event=>{if(event.target!==$('history-dialog'))return;const r=event.target.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)event.target.close();});
 const dates=Object.keys(DATA.days).sort().reverse();$('date').innerHTML=dates.length?dates.map(d=>`<option value="${esc(d)}">${esc(d)}</option>`).join(''):'<option value="">暂无数据</option>';$('date').disabled=!dates.length;

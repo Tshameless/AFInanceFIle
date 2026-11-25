@@ -381,6 +381,15 @@ def publish(snapshot=None, root=BASE_DIR):
     review_dir = root / "复盘笔记"
     payload["review_dates"] = sorted(path.stem for path in review_dir.glob("*.html") if path.stem in days)
     payload["plans"] = load_plans(review_dir, days)
+    # 补抓报告的逐日条目来自指数交易日历，含抓取失败的日期，不能用相邻快照代替。
+    next_sessions = {}
+    for report_path in sorted((root / "data" / "backfill").glob("report_*.json")):
+        report = json.loads(report_path.read_text(encoding="utf-8"))
+        sessions = [entry["date"] for entry in report["entries"]]
+        if sessions == sorted(set(sessions)):
+            next_sessions.update(zip(sessions, sessions[1:]))
+    next_sessions.update({day: plan["target_date"] for day, plan in payload["plans"].items()})
+    payload["next_sessions"] = next_sessions
     # JSON 内联时转义 HTML 元字符，防止来源文本提前结束 script 标签。
     embedded = json.dumps(payload, ensure_ascii=False, allow_nan=False).replace("&", "\\u0026").replace("<", "\\u003c").replace(">", "\\u003e")
     template = (root / "limit-up.template.html").read_text(encoding="utf-8")
